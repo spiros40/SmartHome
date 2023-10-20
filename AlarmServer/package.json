@@ -1,0 +1,14 @@
+{
+  "name": "alarmserver",
+  "version": "1.0.0",
+  "description": "telnet and https server to communicate with alarm board",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "spyros",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
