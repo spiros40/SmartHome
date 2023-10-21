@@ -2,12 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text,Button,
   View,SafeAreaView,Alert,TextInput} from 'react-native';
 import MultiSelectDropdown from './components/dropDownList';
+import ZonesToBypass from './Data/zones';
+import Buttons from './components/Button';
 
 export default function App() {
-  const ZonesToBypass = ['zone 1', 'zone 2', 'zone 3', 
-  'zone 4', 'zone 5', 'zone 6', 'zone 7', 'zone 8', 
-  'zone 9', 'zone 10', 'zone 11', 'zone 12', 'zone 13', 
-  'zone 14', 'zone 15', 'zone 16'];
   
   return (
     <View style={styles.container}>
@@ -15,22 +13,21 @@ export default function App() {
         >Home Alarm</Text>
 
       <View style={styles.buttonView}>
-        <Button 
-          color={"red"}
+        <Buttons 
           title="Full Arm"
           onPress={() => Alert.alert('Simple Button pressed')}
         />
-        <Button 
+        <Buttons 
           title="Stay Arm"
           onPress={() => Alert.alert('Simple Button pressed')}
         />
-        <Button
+        <Buttons
           title="Disarm"
           onPress={() => Alert.alert('Simple Button pressed')}
         />
       </View>
       <View style={styles.bypassView}>
-      <Button
+      <Buttons
           title="Bypass"
           onPress={() => Alert.alert('Simple Button pressed')}
         />
@@ -59,7 +56,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(191 219 204)',
     alignItems: 'center',
     justifyContent: 'center',
-    fontFamily:"Cursive",
   },
   titleText:{
     color: 'black',
