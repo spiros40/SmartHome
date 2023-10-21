@@ -1,8 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text,Button,
   View,SafeAreaView,Alert,TextInput} from 'react-native';
+import MultiSelectDropdown from './components/dropDownList';
 
 export default function App() {
+  const ZonesToBypass = ['zone 1', 'zone 2', 'zone 3', 
+  'zone 4', 'zone 5', 'zone 6', 'zone 7', 'zone 8', 
+  'zone 9', 'zone 10', 'zone 11', 'zone 12', 'zone 13', 
+  'zone 14', 'zone 15', 'zone 16'];
+  
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}
@@ -10,7 +16,7 @@ export default function App() {
 
       <View style={styles.buttonView}>
         <Button 
-          style={styles.buttons}
+          color={"red"}
           title="Full Arm"
           onPress={() => Alert.alert('Simple Button pressed')}
         />
@@ -28,13 +34,7 @@ export default function App() {
           title="Bypass"
           onPress={() => Alert.alert('Simple Button pressed')}
         />
-        <TextInput
-          style={styles.bypassInput}
-          // onChangeText={onChangeNumber}
-          // value={number}
-          placeholder="Enter Zones To Bypass"
-          keyboardType="numeric"
-         />
+        <MultiSelectDropdown options={ZonesToBypass} />
       </View>
       <View style={styles.alarmView}>
       <label style={styles.alarmLabel}>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(191 219 204)',
     alignItems: 'center',
     justifyContent: 'center',
-    
+    fontFamily:"Cursive",
   },
   titleText:{
     color: 'black',
@@ -74,9 +74,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     gap: 8,
   },
-  buttons:{
-    borderRadius:200,
-  },
+  
   bypassView:{
     margin:20,
     width:265,
@@ -104,8 +102,8 @@ const styles = StyleSheet.create({
         height:40,
         textAlign:'center',
         fontSize:20,
-        fontWeight:'bold',
         backgroundColor:'#2196F3',
+        color:"white",
       },
   
 });
