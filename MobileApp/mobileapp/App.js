@@ -4,16 +4,46 @@ import { StyleSheet, Text,Button,
 import MultiSelectDropdown from './components/dropDownList';
 import ZonesToBypass from './Data/zones';
 import Buttons from './components/Button';
+import Frame from './components/frame';
+import StatusFrame from './components/statusFrame';
+import BypassFrame from './components/bypassFrame'
 
 export default function App() {
   
   return (
     <View style={styles.container}>
-      <Text style={styles.titleText}
+      {/* <Text style={styles.titleText}
         >Home Alarm</Text>
 
-      <View style={styles.buttonView}>
-        <Buttons 
+      <View style={styles.buttonView}> */}
+      <View style={styles.buttonView}> 
+        <Frame
+          name="Arm Away"
+          source={require('./Data/Pics/arm.png')}
+        />
+        <Frame
+          name="Arm Stay"
+          source={require('./Data/Pics/stayArm.png')}
+        />
+      </View>
+      <View style={styles.buttonView}> 
+        <Frame
+          name="Disarm"
+          source={require('./Data/Pics/disarm.png')}
+        />
+        <BypassFrame
+          name="Bypass"
+          source={require('./Data/Pics/bypass.png')}
+          
+        />
+      </View>
+      <View>
+        <StatusFrame
+          name="Alarm Status"
+          recievedText="recievedText"
+        />
+      </View>
+        {/* <Buttons 
           title="Full Arm"
           onPress={() => Alert.alert('Simple Button pressed')}
         />
@@ -25,6 +55,7 @@ export default function App() {
           title="Disarm"
           onPress={() => Alert.alert('Simple Button pressed')}
         />
+        
       </View>
       <View style={styles.bypassView}>
       <Buttons
@@ -32,8 +63,10 @@ export default function App() {
           onPress={() => Alert.alert('Simple Button pressed')}
         />
         <MultiSelectDropdown options={ZonesToBypass} />
+       
       </View>
       <View style={styles.alarmView}>
+      
       <label style={styles.alarmLabel}>
         Alarm
       </label>
@@ -45,6 +78,7 @@ export default function App() {
           keyboardType="numeric"
          />
       </View>
+       */}
       <StatusBar style="auto" />
     </View>
   );
@@ -56,6 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(191 219 204)',
     alignItems: 'center',
     justifyContent: 'center',
+    gap:10,
   },
   titleText:{
     color: 'black',
@@ -68,7 +103,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 8,
-    gap: 8,
+    gap: 15,
   },
   
   bypassView:{
@@ -82,24 +117,24 @@ const styles = StyleSheet.create({
       padding: 10,
       marginTop:10,
     },
-    alarmView:{
-      margin:20,
-      width:265,
-      },
-      alarmInput: {
-        height: 40,
-        width:265,
-        borderWidth: 1,
-        padding: 10,
-        marginTop:10,
-      },
-      alarmLabel:{
-        width:265,
-        height:40,
-        textAlign:'center',
-        fontSize:20,
-        backgroundColor:'#2196F3',
-        color:"white",
-      },
+    // alarmView:{
+    //   margin:20,
+    //   width:265,
+    //   },
+    //   alarmInput: {
+    //     height: 40,
+    //     width:265,
+    //     borderWidth: 1,
+    //     padding: 10,
+    //     marginTop:10,
+    //   },
+    //   alarmLabel:{
+    //     width:265,
+    //     height:40,
+    //     textAlign:'center',
+    //     fontSize:20,
+    //     backgroundColor:'#2196F3',
+    //     color:"white",
+    //   },
   
 });
