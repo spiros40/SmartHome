@@ -1,25 +1,17 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text,Button,
-  View,SafeAreaView,Switch,TextInput,Image} from 'react-native';
+import { StyleSheet, Text,
+  View,Image} from 'react-native';
 
-  export default function Frame(props) {
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+  export default function Mainframe(props) {
+    
     return (
       <View style={[styles.container,styles.shadowProp]}>
         <View style={styles.top}>
           <Image
-            style={styles.tinyLogo}
+            style={styles.logo}
             source={props.source}
           />
         <View style={styles.switchStyle}>
-          <Switch
-            trackColor={{false: '#cc0000', true: '#8fce00'}}
-            thumbColor={isEnabled ? '#318ce7' : '#f0f8ff'}
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />   
         </View>   
       </View>
       <View style={styles.nameView}>
@@ -35,23 +27,16 @@ import { StyleSheet, Text,Button,
       borderRadius:10,
       width:110,
       height:90,
+      
     },
     top:{
-        flex:1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        margin: 10,
-        gap: 20,
-    },
-    switchStyle:{
-      paddingTop:10,
+      paddingTop:5,
+      alignSelf:'center'
     },
     nameView:{
-        flex:2,
-        flexDirection: 'row',
-        margin: 20,
-        textAlign:'center',
-        position:'relative'
+        alignSelf:'center',
+        position:'relative',
+        paddingTop:8,
       },
     nameText:{
       fontWeight:'bold',
@@ -68,8 +53,8 @@ import { StyleSheet, Text,Button,
         height: 30,
       },
       logo: {
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
       },
   });
   

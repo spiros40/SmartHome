@@ -1,30 +1,31 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text,Button,
-  View,SafeAreaView,Switch,TextInput,Image, Pressable} from 'react-native';
-import bypassList from './bypassList';
+import { StyleSheet, Text,
+  View,Switch,Image} from 'react-native';
 
-  const  bypassFrame=(props)=>{
-    const [modalVisible, setModalVisible] = useState(false);
-    const selectedZones=()=>{
-      console.log("OK");
-      setModalVisible(true);
+  export default function frameSwitch(props) {
     
-    };
+    const [isEnabled, setIsEnabled] = useState(props.state);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    console.log(props.name+"  "+isEnabled);
+
     return (
       <View style={[styles.container,styles.shadowProp]}>
-      {modalVisible&&<bypassList/>}
         <View style={styles.top}>
           <Image
             style={styles.tinyLogo}
             source={props.source}
           />
-        <Pressable onPressIn={selectedZones} >
-          <Text>Zones</Text>    
-        </Pressable>   
+        <View style={styles.switchStyle}>
+          <Switch
+            trackColor={{false: '#cc0000', true: '#8fce00'}}
+            thumbColor={isEnabled ? '#318ce7' : '#f0f8ff'}
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+          />   
+        </View>   
       </View>
-      <View style={styles.nameView} >
-        <Text style={styles.nameText}>{props.name}</Text> 
-        
+      <View style={styles.nameView}>
+        <Text style={styles.nameText}>{props.name}</Text>  
       </View>
       </View>
     );
@@ -42,7 +43,10 @@ import bypassList from './bypassList';
         flexDirection: 'row',
         flexWrap: 'wrap',
         margin: 10,
-        gap: 10,
+        gap: 20,
+    },
+    switchStyle:{
+      paddingTop:10,
     },
     nameView:{
         flex:2,
@@ -71,4 +75,3 @@ import bypassList from './bypassList';
       },
   });
   
-  export default bypassFrame;

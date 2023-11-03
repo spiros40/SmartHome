@@ -1,17 +1,42 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet,View,ActivityIndicator} from 'react-native';
-import Alarm from './components/Screens/Alarm';
-import LoadingBar from './components/UI/loadingBar'
-import MainScreen from './components/Screens/MainScreen';
+import { StyleSheet,View} from 'react-native';
+import Frame from '../UI/frameSwitch';
+import StatusFrame from '../UI/statusFrame';
+import BypassFrame from '../Screens/bypassFrame';
 
-export default function App() {
+const Alarm=()=>{
   
   return (
     <View style={styles.container}>
-      <LoadingBar
-        status={true}
-      />
-      <MainScreen/>
+      <View style={styles.buttonView}> 
+        <Frame
+          name="Arm Away"
+          source={require('../../Data/Pics/arm.png')}
+          state={true}
+        />
+        <Frame
+          name="Arm Stay"
+          source={require('../../Data/Pics/stayArm.png')}
+          state={false}
+        />
+      </View>
+      <View style={styles.buttonView}> 
+        <Frame
+          name="Disarm"
+          source={require('../../Data/Pics/disarm.png')}
+          state={false}
+        />
+        <BypassFrame
+          name="Bypass"
+          source={require('../../Data/Pics/bypass.png')}
+        />
+      </View>
+      <View>
+        <StatusFrame
+          name="Alarm Status"
+          recievedText="recievedText"
+        />
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -52,7 +77,7 @@ const styles = StyleSheet.create({
     },
 });
 
-
+export default Alarm;
 
 /*import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text,Button,
