@@ -4,7 +4,7 @@ import Frame from '../UI/frameSwitch';
 import StatusFrame from '../UI/statusFrame';
 import BypassFrame from './bypassFrame';
 
-const Alarm=()=>{
+const WeatherStation=({ navigation })=>{
   
   return (
     <View style={styles.container}>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Alarm;
+export default WeatherStation;
 
 /*import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text,Button,

@@ -2,7 +2,7 @@ import {View,ScrollView,StyleSheet} from 'react-native';
 import Frame from '../UI/Mainframe';
 
 
-const MainScreen=(props)=>{
+const MainScreen=(props, { navigation })=>{
 
     return(
       <ScrollView>

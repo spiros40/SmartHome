@@ -4,7 +4,7 @@ import Frame from '../UI/frameSwitch';
 import StatusFrame from '../UI/statusFrame';
 import BypassFrame from '../Screens/bypassFrame';
 
-const Alarm=()=>{
+const Alarm=({ navigation })=>{
   
   return (
     <View style={styles.container}>

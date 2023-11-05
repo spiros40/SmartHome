@@ -1,19 +1,43 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet,View,ActivityIndicator} from 'react-native';
+import * as React from 'react';
+import { StyleSheet,View,ActivityIndicator,Button,Text} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Alarm from './components/Screens/Alarm';
 import LoadingBar from './components/UI/loadingBar'
 import MainScreen from './components/Screens/MainScreen';
+import WaterHeater from './components/Screens/WaterHeater';
+import Weather from './components/Screens/Weather';
 
-export default function App() {
-  
+
+const Stack = createNativeStackNavigator();
+
+export default function App({ navigation }) {
   return (
-    <View style={styles.container}>
-      <LoadingBar
-        status={true}
-      />
-      <MainScreen/>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+       <Stack.Navigator initialRouteName="MainScreen">
+        <Stack.Screen 
+          name="MainScreen" 
+          component={MainScreen} 
+          options={{ title: 'Home' }}
+          />
+        <Stack.Screen 
+          name="Alarm" 
+          component={Alarm} 
+          options={{ title: 'Alarm' }}
+          />
+        <Stack.Screen 
+          name="WaterHeater" 
+          component={WaterHeater} 
+          options={{ title: 'Water Heater' }}
+          />
+        <Stack.Screen 
+          name="Weather" 
+          component={Weather} 
+          options={{ title: 'Weather' }}
+          />
+      </Stack.Navigator>
+     </NavigationContainer>
   );
 }
 
