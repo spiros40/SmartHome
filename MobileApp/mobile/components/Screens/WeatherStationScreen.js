@@ -1,64 +1,44 @@
 import { StatusBar } from 'expo-status-bar';
-import * as React from 'react';
-import { StyleSheet,View,ActivityIndicator,Button,Text} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AlarmScreen from './components/Screens/AlarmScreen';
-import LoadingBar from './components/UI/loadingBar'
-import MainScreen from './components/Screens/MainScreen';
-import WaterHeaterScreen from './components/Screens/WaterHeaterScreen';
-import WeatherScreen from './components/Screens/WeatherScreen';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import BottomNavigator from './components/UI/Menu/BottomNavigator';
-import SettingsScreen from './components/Screens/SettingsScreen';
-import NotificationsScreen from './components/Screens/NotificationsScreen';
-import SmartHomeScreen from './components/Screens/SmartHomeScreen';
+import { StyleSheet,View} from 'react-native';
+import Frame from '../UI/frameSwitch';
+import StatusFrame from '../UI/statusFrame';
+import BypassFrame from './bypassFrame';
 
-
-
-
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-export default function App({ navigation }) {
+const WeatherStationScreen=({ navigation })=>{
+  
   return (
-    <NavigationContainer>
-      <Tab.Navigator tabBar={(props) => <BottomNavigator {...props} />}>
-        <Tab.Screen name="Home" component={MainScreen} options={{ tabBarBadge: 3 }}/>
-        <Tab.Screen name="Alarm" component={AlarmScreen}/>
-        <Tab.Screen name="Smart Home" component={SmartHomeScreen}/>
-        <Tab.Screen name="Notifications" component={NotificationsScreen } />
-        <Tab.Screen name="Settings" component={SettingsScreen } />
-      </Tab.Navigator>
-    </NavigationContainer>
-
-
-
-
-    // <NavigationContainer>
-    //    <Stack.Navigator initialRouteName="MainScreen">
-    //     <Stack.Screen 
-    //       name="MainScreen" 
-    //       component={MainScreen} 
-    //       options={{ title: 'Home' }}
-    //       />
-    //     <Stack.Screen 
-    //       name="Alarm" 
-    //       component={Alarm} 
-    //       options={{ title: 'Alarm' }}
-    //       />
-    //     <Stack.Screen 
-    //       name="WaterHeater" 
-    //       component={WaterHeater} 
-    //       options={{ title: 'Water Heater' }}
-    //       />
-    //     <Stack.Screen 
-    //       name="Weather" 
-    //       component={Weather} 
-    //       options={{ title: 'Weather' }}
-    //       />
-    //   </Stack.Navigator>
-    //  </NavigationContainer>
+    <View style={styles.container}>
+      <View style={styles.buttonView}> 
+        <Frame
+          name="Arm Away"
+          source={require('../../Data/Pics/arm.png')}
+          state={true}
+        />
+        <Frame
+          name="Arm Stay"
+          source={require('../../Data/Pics/stayArm.png')}
+          state={false}
+        />
+      </View>
+      <View style={styles.buttonView}> 
+        <Frame
+          name="Disarm"
+          source={require('../../Data/Pics/disarm.png')}
+          state={false}
+        />
+        <BypassFrame
+          name="Bypass"
+          source={require('../../Data/Pics/bypass.png')}
+        />
+      </View>
+      <View>
+        <StatusFrame
+          name="Alarm Status"
+          recievedText="recievedText"
+        />
+      </View>
+      <StatusBar style="auto" />
+    </View>
   );
 }
 
@@ -97,7 +77,7 @@ const styles = StyleSheet.create({
     },
 });
 
-
+export default WeatherStationScreen;
 
 /*import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text,Button,

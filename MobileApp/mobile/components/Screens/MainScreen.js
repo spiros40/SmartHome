@@ -1,5 +1,5 @@
 import {View,ScrollView,StyleSheet} from 'react-native';
-import Frame from '../UI/Mainframe';
+import MainFrame from '../UI/Frames/Mainframe';
 
 
 const MainScreen=(props, { navigation })=>{
@@ -8,23 +8,23 @@ const MainScreen=(props, { navigation })=>{
       <ScrollView>
         <View style={styles.container}>
         <View style={styles.team}>
-          <Frame
+          <MainFrame
             name="Alarm"
             source={require('../../Data/Pics/homeAlarm.png')}
           />
-          <Frame
-            name="Water Heater"
-            source={require('../../Data/Pics/waterHeater.png')}
+          <MainFrame
+            name="Smart Home"
+            source={require('../../Data/Pics/smartHome.png')}
           />
         </View>
         <View style={styles.team}>
-          <Frame
-            name="Weather"
-            source={require('../../Data/Pics/weather.png')}
+          <MainFrame
+            name="Notifications"
+            source={require('../../Data/Pics/notifications.png')}
           />
-          <Frame
-            name="Local Station"
-            source={require('../../Data/Pics/weatherStation.png')}
+          <MainFrame
+            name="Settings"
+            source={require('../../Data/Pics/settings.png')}
           />
         </View>
         </View>

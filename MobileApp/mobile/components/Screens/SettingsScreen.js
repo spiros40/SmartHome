@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet,View} from 'react-native';
-import Frame from '../UI/frameSwitch';
-import StatusFrame from '../UI/statusFrame';
+import Frame from '../UI/Frames/frameSwitch';
+import StatusFrame from '../UI/Frames/statusFrame';
 import BypassFrame from './bypassFrame';
 
-const WaterHeater=({ navigation })=>{
+const SettingsScreen=({ navigation })=>{
   
   return (
     <View style={styles.container}>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default WaterHeater;
+export default  SettingsScreen ;
 
 /*import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text,Button,

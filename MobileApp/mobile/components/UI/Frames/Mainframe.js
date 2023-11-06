@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import { StyleSheet, Text,
   View,Image,Pressable} from 'react-native';
 
-  export default function Mainframe(props) {
+const Mainframe=(props, {navigation})=>{
     const goto=()=>{
-      console.log(props.name)
+      navigation.navigate('AlarmScreen');
+      console.log(props.name);
     }
     return (
       <Pressable onPress={goto} style={[styles.container,styles.shadowProp]}>
@@ -59,3 +60,5 @@ import { StyleSheet, Text,
       },
   });
   
+
+  export default Mainframe;
