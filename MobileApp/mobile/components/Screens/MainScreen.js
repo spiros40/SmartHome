@@ -2,7 +2,7 @@ import {View,ScrollView,StyleSheet} from 'react-native';
 import MainFrame from '../UI/Frames/Mainframe';
 
 
-const MainScreen=(props, { navigation })=>{
+const MainScreen=({ navigation, ...props })=>{
 
     return(
       <ScrollView>
@@ -11,20 +11,24 @@ const MainScreen=(props, { navigation })=>{
           <MainFrame
             name="Alarm"
             source={require('../../Data/Pics/homeAlarm.png')}
+            onPress={()=>{navigation.navigate('Alarm')}}
           />
           <MainFrame
             name="Smart Home"
             source={require('../../Data/Pics/smartHome.png')}
+            onPress={()=>{navigation.navigate('SmartHomeScreen')}}
           />
         </View>
         <View style={styles.team}>
           <MainFrame
             name="Notifications"
             source={require('../../Data/Pics/notifications.png')}
+            onPress={()=>{navigation.navigate('Notifications')}}
           />
           <MainFrame
             name="Settings"
             source={require('../../Data/Pics/settings.png')}
+            onPress={()=>{navigation.navigate('Settings')}}
           />
         </View>
         </View>

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet,View} from 'react-native';
-import Frame from '../UI/Frames/frameSwitch';
-import StatusFrame from '../UI/Frames/statusFrame';
+import FrameSwitch from '../../UI/Frames/frameSwitch';
+import StatusFrame from '../../UI/Frames/statusFrame';
 import BypassFrame from './bypassFrame';
 
 const AlarmScreen=({ navigation })=>{
@@ -9,26 +9,26 @@ const AlarmScreen=({ navigation })=>{
   return (
     <View style={styles.container}>
       <View style={styles.buttonView}> 
-        <Frame
+        <FrameSwitch
           name="Arm Away"
-          source={require('../../Data/Pics/arm.png')}
-          state={true}
+          source={require('../../../Data/Pics/arm.png')}
+          state={false}
         />
-        <Frame
+        <FrameSwitch
           name="Arm Stay"
-          source={require('../../Data/Pics/stayArm.png')}
+          source={require('../../../Data/Pics/stayArm.png')}
           state={false}
         />
       </View>
       <View style={styles.buttonView}> 
-        <Frame
+        <FrameSwitch
           name="Disarm"
-          source={require('../../Data/Pics/disarm.png')}
+          source={require('../../../Data/Pics/disarm.png')}
           state={false}
         />
         <BypassFrame
           name="Bypass"
-          source={require('../../Data/Pics/bypass.png')}
+          source={require('../../../Data/Pics/bypass.png')}
         />
       </View>
       <View>

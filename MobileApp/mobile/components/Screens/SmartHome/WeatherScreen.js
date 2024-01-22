@@ -1,34 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet,View} from 'react-native';
-import Frame from '../UI/Frames/frameSwitch';
-import StatusFrame from '../UI/Frames/statusFrame';
-import BypassFrame from './bypassFrame';
+import Frame from '../../UI/Frames/frameSwitch';
+import StatusFrame from '../../UI/Frames/statusFrame';
+import BypassFrame from '../Alarm/bypassFrame';
 
-const SettingsScreen=({ navigation })=>{
+const WeatherScreen=({ navigation })=>{
   
   return (
     <View style={styles.container}>
       <View style={styles.buttonView}> 
         <Frame
           name="Arm Away"
-          source={require('../../Data/Pics/arm.png')}
+          source={require('../../../Data/Pics/arm.png')}
           state={true}
         />
         <Frame
           name="Arm Stay"
-          source={require('../../Data/Pics/stayArm.png')}
+          source={require('../../../Data/Pics/stayArm.png')}
           state={false}
         />
       </View>
       <View style={styles.buttonView}> 
         <Frame
           name="Disarm"
-          source={require('../../Data/Pics/disarm.png')}
+          source={require('../../../Data/Pics/disarm.png')}
           state={false}
         />
         <BypassFrame
           name="Bypass"
-          source={require('../../Data/Pics/bypass.png')}
+          source={require('../../../Data/Pics/bypass.png')}
         />
       </View>
       <View>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default  SettingsScreen ;
+export default WeatherScreen;
 
 /*import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text,Button,

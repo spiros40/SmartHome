@@ -43,7 +43,7 @@ const BottomNavigator=({ state, descriptors, navigation })=> {
               onLongPress={onLongPress}
               style={styles.bar}
             >
-              <Text style={{ color: isFocused ? '#673ab7' : '#222' ,backgroundColor: isFocused ? 'white' : 'yellow'}}>
+              <Text style={{ color: isFocused ? 'red' : 'black',fontWeight: isFocused ? 'bold':'normal'}}>
                 {label}
               </Text>
             </TouchableOpacity>
@@ -56,7 +56,7 @@ const BottomNavigator=({ state, descriptors, navigation })=> {
 const styles=StyleSheet.create({
   bar:{
     flex: 1, 
-    backgroundColor:'red',
+    backgroundColor:'#babdb8',
     alignItems: 'center',
     fontSize:16,
     fontWeight:'bold',

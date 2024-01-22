@@ -1,31 +1,28 @@
 import { View,ScrollView,StyleSheet} from "react-native";
-import MainFrame from '../UI/Frames/Mainframe';
-
-
+import MainFrame from '../../UI/Frames/Mainframe';
 
 const SmartHomeScreen=(props)=>{
-
-    return(
+  return(
         <ScrollView>
         <View style={styles.container}>
             <View style={styles.team}>
             <MainFrame
                 name="Alarm"
-                source={require('../../Data/Pics/homeAlarm.png')}
+                source={require('../../../Data/Pics/homeAlarm.png')}
             />
             <MainFrame
                 name="Water Heater"
-                source={require('../../Data/Pics/waterHeater.png')}
+                source={require('../../../Data/Pics/waterHeater.png')}
             />
             </View>
         <View style={styles.team}>
           <MainFrame
             name="Weather"
-            source={require('../../Data/Pics/weather.png')}
+            source={require('../../../Data/Pics/weather.png')}
           />
           <MainFrame
             name="Local Station"
-            source={require('../../Data/Pics/weatherStation.png')}
+            source={require('../../../Data/Pics/weatherStation.png')}
           />
         </View>
         </View>

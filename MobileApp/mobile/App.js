@@ -2,27 +2,52 @@ import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet,View,ActivityIndicator,Button,Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AlarmScreen from './components/Screens/AlarmScreen';
-import LoadingBar from './components/UI/loadingBar'
-import MainScreen from './components/Screens/MainScreen';
-import WaterHeaterScreen from './components/Screens/WaterHeaterScreen';
-import WeatherScreen from './components/Screens/WeatherScreen';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import BottomNavigator from './components/UI/Menu/BottomNavigator';
-import SettingsScreen from './components/Screens/SettingsScreen';
-import NotificationsScreen from './components/Screens/NotificationsScreen';
-import SmartHomeScreen from './components/Screens/SmartHomeScreen';
+import 'react-native-gesture-handler';
+import BottomNavigatorBar from './components/UI/Menu/BottomNavigatorBar';
 
 
+// const Stack = createNativeStackNavigator();
+// const Tab = createBottomTabNavigator();
 
-
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-export default function App({ navigation }) {
+export default function App() {
   return (
-    <NavigationContainer>
+    <>
+      <StatusBar style="auto" />
+      <NavigationContainer>
+        <BottomNavigatorBar/>
+      </NavigationContainer>
+    </>
+
+
+/* <NavigationContainer>
+       <Stack.Navigator initialRouteName="MainScreen">
+         <Stack.Screen 
+          name="MainScreen" 
+          component={MainScreen} 
+          options={{ title: 'Home' }}
+          />
+        <Stack.Screen 
+          name="Alarm" 
+          component={AlarmScreen} 
+          options={{ title: 'Alarm' }}
+          />
+        <Stack.Screen 
+          name="SmartHomeScreen" 
+          component={SmartHomeScreen} 
+          options={{ title: 'Smart Home Screen' }}
+          />
+        <Stack.Screen 
+          name="SettingsScreen" 
+          component={SettingsScreen} 
+          options={{ title: 'Settings' }}
+          />
+          
+      </Stack.Navigator>
+     </NavigationContainer> 
+     <BottomNavigatorBar/>*/
+
+/*
+<NavigationContainer>
       <Tab.Navigator tabBar={(props) => <BottomNavigator {...props} />}>
         <Tab.Screen name="Home" component={MainScreen} options={{ tabBarBadge: 3 }}/>
         <Tab.Screen name="Alarm" component={AlarmScreen}/>
@@ -31,9 +56,7 @@ export default function App({ navigation }) {
         <Tab.Screen name="Settings" component={SettingsScreen } />
       </Tab.Navigator>
     </NavigationContainer>
-
-
-
+*/
 
     // <NavigationContainer>
     //    <Stack.Navigator initialRouteName="MainScreen">

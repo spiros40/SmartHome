@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text,
   View,Image,Pressable} from 'react-native';
+  
 
-const Mainframe=(props, {navigation})=>{
+const Mainframe=({ navigation, ...props })=>{
     const goto=()=>{
-      navigation.navigate('AlarmScreen');
       console.log(props.name);
     }
     return (
-      <Pressable onPress={goto} style={[styles.container,styles.shadowProp]}>
+      <Pressable onPress={props.onPress} style={[styles.container,styles.shadowProp]}>
         <View style={styles.top}>
           <Image
             style={styles.logo}
