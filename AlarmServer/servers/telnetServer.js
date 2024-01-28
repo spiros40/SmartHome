@@ -4,7 +4,7 @@ const alarm=require('../Alarm/alarmCommands');
 
 //telnet server
 const clients = [];
-const serverIP='192.168.1.9';
+const serverIP='192.168.1.12';
 const telnetServerPort=1500;
 //clients IP
 const alarmSystemIP='192.168.1.3';
@@ -18,7 +18,11 @@ const telnetServer = net.createServer((socket) => {
 
   socket.on('data', (data) => {
     const receivedData = data.toString().trim();
-    console.log(`Received data from ${socket.remoteAddress}: ${receivedData}`);
+    //console.log(`Received data from ${socket.remoteAddress}: ${receivedData}`);
+    console.log(` ${receivedData}`);
+    
+    //const obj = JSON.parse(receivedData);
+    //console.log(obj.status);
     if(receivedData==='ar'){
       console.log(data.toString());
       //console.log(alarm('set the alarm on'));
@@ -28,12 +32,13 @@ const telnetServer = net.createServer((socket) => {
       alarmSystem();
       sendToClientByIP('192.168.1.3', a);
     }
-    if (receivedData.startsWith('IP:')) {
+    if (receivedData.startsWith('ip')) {
       // Extract the IP address from the received data
       const ipAddress = receivedData.substring(3).trim();
         console.log(ipAddress);
+        Broadcast();
       // Send a message to the client with the specified IP address
-      sendToClientByIP(ipAddress, `Direct message from server to ${ipAddress}: Hello!\r\n`);
+      sendToClientByIP(ipAddress, `Direct message from server to ${ipAddress}: Hello!\r\n`);   
     } 
   });
 
@@ -51,7 +56,8 @@ const TELNETRun=()=>{
 // Broadcast the received data to all clients
 const Broadcast=()=> {
       clients.forEach((client) => {
-          client.write(`Broadcast`);
+          //client.write(`Broadcast`);
+          client.write(`{\"slave\":\"alarm\",\"command\":10,\"zone\":20,\"output\":50}`);
       });
     }
 //send message to clients

@@ -3,7 +3,6 @@
     #include <SPI.h>
     #include <EEPROM.h>
     #include <string.h>
-    #include <ArduinoJson.h>
 
     // Enter a MAC address and IP address for your controller below.
     // The IP address will be dependent on your local network:
@@ -40,7 +39,7 @@
       #define systemAlarmWait           1
       #define systemCloseAlarm          2     
       #define systemEntryWait           3      
-      #define systemΟpenedZones         5
+      #define systeΟpenedZones          5
     
     /*zone attributes*/      
       #define ZoneAttribute            0
@@ -498,12 +497,11 @@ void writeToEeprom(byte selector){
     }
 
   //get communds from server
-  String communicateServer(){
+  void communicateServer(){
       wdt_reset();
       char* receivedSerData=receiveDataFromServer();
       String receivedServerData=String(receivedSerData);
-      //Serial.print(receivedSerData);
-        return receivedServerData;
+      Serial.print(receivedSerData);
        Serial.print("**-");
 
       if(receivedServerData=="armFull"){
@@ -537,84 +535,6 @@ void writeToEeprom(byte selector){
       }
       sendDataToServer(tempOutputs);
     }
-  //serialization to json system status
-  void sendJsonStatus(){
-    // Allocate the JSON document
-    JsonDocument doc;
-    //system status
-    JsonArray Status = doc["Status"].to<JsonArray>();
-      for(int i=0; i<3; i++){
-        Status.add(systemStatus[i]);
-      }
-    //zone Attribute
-    JsonArray zoneAttribute = doc["zoneAttribute"].to<JsonArray>();
-      for(int i=0; i<=maxZones; i++){
-        zoneAttribute.add(zones[i][0]);
-      }
-      wdt_reset(); 
-    // zone Bypass
-    JsonArray zoneBypass = doc["zoneBypass"].to<JsonArray>();
-      for(int i=0; i<=maxZones; i++){
-        zoneBypass.add(zones[i][1]);
-        wdt_reset(); 
-      }
-    // zone Status
-    JsonArray zoneStatus = doc["zoneStatus"].to<JsonArray>();
-      for(int i=0; i<=maxZones; i++){
-        zoneStatus.add(zones[i][2]);
-      }
-    wdt_reset(); 
-    //output status
-    JsonArray outputStatus = doc["outputStatus"].to<JsonArray>();
-      for(int i=0; i<=maxOutputs; i++){
-        outputStatus.add(outputs[i][2]);
-        wdt_reset(); 
-      }
-    wdt_reset(); 
-    //serializeJson(doc, client);
-    serializeJsonPretty(doc, client);
-
-    /*
-      //doc["Status"] = myString;
-      serializeJson(doc, client);
-      serializeJsonPretty(doc, client);
-      serializeJsonPretty(doc, Serial);
-    */
-    }
-  //receive json
-  void receiveJson(String data){
-    // Allocate the JSON document
-    JsonDocument doc;
-    wdt_reset(); 
-    // Parse JSON object
-    DeserializationError error = deserializeJson(doc, data);
-    if (error) {
-      Serial.print(F("deserialize failed: "));
-      Serial.println(error.f_str());
-      return;
-    }
-    // checks if the received data is for the alarm
-    const char* receivedValue = doc["slave"];
-    const char* staticValue = "alarm";
-
-    if(strcmp(receivedValue, staticValue) == 0){
-      //Serial.println(doc["slave"].as<const char*>());
-      Serial.println(doc["command"].as<int>());
-      Serial.println(doc["zone"].as<long>());
-      Serial.println(doc["output"].as<long>());
-    }
-    
-    /*
-    Serial.println(doc["command"].as<long>());
-    Serial.println(doc["data"][0].as<float>(), 6);
-    Serial.println(doc["data"][1].as<float>(), 6);
-    const char* sensor = doc["sensor"];
-    long time = doc["time"];
-    double latitude = doc["data"][0];
-    double longitude = doc["data"][1];
-    */
- }
-
 /**********************************************************************************/  
   void loop(){    
     wdt_reset();
@@ -642,7 +562,6 @@ void writeToEeprom(byte selector){
   wdt_reset();
   delay(1400);
   wdt_reset();
-  //sendJsonStatus();
   delay(1400);
 
   //reconnect to server with repetition delay
@@ -653,16 +572,10 @@ void writeToEeprom(byte selector){
       serverReconect();
       serverReconnectTime = currentTime;  // Updates loopTime
     }
+      
   }
-  
-  //if any new data has been received then read the input  
-  if(client.available()){
-    receiveJson(communicateServer());
-  }
-
   //Serial.print(client.remotePort());
-  //communicateServer();
-   //receiveJson(communicateServer());
+  communicateServer();
   wdt_reset();
   switch(systemStatus[systemSubStatusCell]){    
     case systemNormal:  
