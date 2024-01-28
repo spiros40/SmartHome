@@ -23,18 +23,26 @@
     //Time variables
     unsigned long currentTime;
     unsigned long serverReconnectTime; 
-
+    /*server commands*/            
+      #define commandDisarm           0
+      #define commandArm              1    
+      #define commandStayArm          2
+      #define commandBypass           4
+      #define commandUnBypass         5
+      #define commandEnableOutput     6
+      #define commandDisableOutput    7    
+      #define commandStatus           8
     /*system_status*/      
       #define systemStatusCell         0
       #define systemDisarmed           0
       #define systemArmed              1    
       #define systemStayArmed          2
-      /*systemSubStatus*/
+    /*systemSubStatus*/
       #define systemSubStatusCell       1
       #define systemNormal              0
       #define systemInEntryDelay        1
       #define systemInAlarm             2
-      /*system_running now*/
+    /*system_running now*/
       #define systemRunningNowCell      2
       #define systemAlarmNormal         0  
       #define systemAlarmWait           1
@@ -98,7 +106,7 @@
       #define zonePinCell                3
       #define zoneNumberCell             4
 
-      /*output attributes*/    
+    /*output attributes*/    
       #define outputAttributeCell           1     
       #define outputStatusCell              2
       #define maxOutputs                    11
@@ -113,7 +121,7 @@
       #define PGM7Pin                       47
       #define PGM8Pin                       48
       #define PGM9Pin                       49
-       /*output names*/
+    /*output names*/
       #define outputSiren                   0
       #define outputSiren2                  1
       #define PGM1                          2
@@ -126,7 +134,7 @@
       #define PGM8                          9
       #define PGM9                          10
       
-      /*delay times*/
+    /*delay times*/
       #define sirenDelayTime          8000
       #define entryDelayTime          8000
       #define exitDelayTime           8000
@@ -140,28 +148,27 @@
       #define enable                   1
       #define disable                  0
       
-      //EEPROM
+    //EEPROM
       #define readPass                 0
       #define readSystemStatus         1
       #define readZones                2
 
          
-      /*password*/
+    /*password*/
       byte password[4]={0,0,0,0};
      
       
-   /**********************************************************************************/  
-     /*systemStatus []={systemStatusCell->[systemDisarmed=0, systemArmed=1,systemStayArmed=2], 
+    /*systemStatus []={systemStatusCell->[systemDisarmed=0, systemArmed=1,systemStayArmed=2], 
      systemSubStatusCell->[in_normal=0,in_entry_delay=1,in_alarm=2], 
      SystemRunningNowCell->[systemAlarmNormal=0,systemAlarmWait=1,systemCloseAlarm=2,systemEntryWait=3,openedZones=4]};*/
-    byte systemStatus []={0,0,0};
+     byte systemStatus []={0,0,0};
    
     /*PORTC + PORTA zone attributes
-    zone= {zoneAttributeCell->[0=zoneInactive , 1=zoneDelay, 2=zoneInternal, 3=zoneInstant], 
-    zoneBypassCell->[1=zoneBypassed , 2=zoneUsed ], 
-    zoneStatusCell->[0=zoneOpen, 1=zoneClosed],
-    [zonePinCell],[zoneNumberCell]}}*/    
-    int zones [16][5]={
+      zone= {zoneAttributeCell->[0=zoneInactive , 1=zoneDelay, 2=zoneInternal, 3=zoneInstant], 
+      zoneBypassCell->[1=zoneBypassed , 2=zoneUsed ], 
+      zoneStatusCell->[0=zoneOpen, 1=zoneClosed],
+      [zonePinCell],[zoneNumberCell]}}*/    
+      int zones [16][5]={
       {zoneDelay,zoneUsed,zoneClosed,zone1Pin,zone1},{zoneDelay,zoneUsed,zoneClosed,zone2Pin,zone2},
       {zoneInternal,zoneUsed,zoneClosed,zone3Pin,zone3},{zoneInternal,zoneUsed,zoneClosed,zone4Pin,zone4},
       {zoneInternal,zoneUsed,zoneClosed,zone5Pin,zone5},{zoneInstant,zoneUsed,zoneClosed,zone6Pin,zone6},
@@ -171,13 +178,13 @@
       {zoneInstant,zoneUsed,zoneClosed,zone13Pin,zone13},{zoneInstant,zoneUsed,zoneClosed,zone14Pin,zone14},
       {zoneInstant,zoneUsed,zoneClosed,zone15Pin,zone15},{zoneInstant,zoneUsed,zoneClosed,zone16Pin,zone16}};
    
-     /*PORTG + PORTL output attributes
+    /*PORTG + PORTL output attributes
       output= cell_output_attributes->[connected pin number and name], 
       cell_output_current->[0=disable, 1=enable]*/
-    int outputs [11][2]={
-      {outputSirenPin,disable},{outputSiren2Pin,disable},
-      {PGM1Pin,disable},{PGM2Pin,disable},{PGM3Pin,disable},{PGM4Pin,disable},
-      {PGM5Pin,disable},{PGM6Pin,disable},{PGM7Pin,disable},{PGM8Pin,disable},{PGM9Pin,disable}};
+      int outputs [11][2]={
+        {outputSirenPin,disable},{outputSiren2Pin,disable},
+        {PGM1Pin,disable},{PGM2Pin,disable},{PGM3Pin,disable},{PGM4Pin,disable},
+        {PGM5Pin,disable},{PGM6Pin,disable},{PGM7Pin,disable},{PGM8Pin,disable},{PGM9Pin,disable}};
 
     /**********************************************************************************/  
   void setup(){    
@@ -259,20 +266,20 @@
     }
   /**********************************************************************************/  
   //writes to EEPROM
-void writeToEeprom(byte selector){
+  void writeToEeprom(byte selector){
     /*Write the value to the appropriate byte of the EEPROM.
     these values will remain there when the board is turned off.*/
     //EEPROM.write(addr, val);
     if(selector==readPass){EEPROM.put(0x00, password);}
     if(selector==readSystemStatus){EEPROM.put(0xA0, systemStatus);}
     if(selector==readZones){EEPROM.put(0xC0, zones);}}
-//reads from EEPROM
- void readsFromEeprom(byte selector){
+  //reads from EEPROM
+  void readsFromEeprom(byte selector){
     if(selector==readPass){EEPROM.get(0x00, password);}
     if(selector==readSystemStatus){EEPROM.get(0xA0, systemStatus);}
     if(selector==readZones){EEPROM.get(0xC0, zones);}
-  }
-//scan inputs and load the arrays
+    }
+  //scan inputs and load the arrays
   void scanZones(){
      for(int i=0;i<=maxZones;i++){                            
        if(digitalRead(zones[i][zonePinCell])==HIGH){              
@@ -282,30 +289,29 @@ void writeToEeprom(byte selector){
           }          
         delay(5);
     }}   
-//bypass unbypass a zone
+  //bypass unbypass a zone
   int zoneBypass(int zoneName, int BypassUnBypass){
-          zones[zoneName][zoneBypassCell]=BypassUnBypass;
-          if(BypassUnBypass==enable){
-            writeToEeprom(readZones);
-            sendDataToServer("zoneBypased");
-              return 1;
-            }else if(BypassUnBypass==disable){
-              writeToEeprom(readZones);
-              sendDataToServer("zoneUnbypased");
-              return 0; 
-             }
-             delay(5);}   
-//set an output
+      zones[zoneName][zoneBypassCell]=BypassUnBypass;
+        if(BypassUnBypass==enable){
+          writeToEeprom(readZones);
+          sendSingleJson("zone", "zoneBypased");
+        }else if(BypassUnBypass==disable){
+          writeToEeprom(readZones);
+          sendSingleJson("zone","zoneUnbypased");
+          }
+      delay(5);}   
+  //set an output
   int setOutput(int outputName, int setUnset){
-          outputs[outputName][outputAttributeCell]=setUnset;
-          if(setUnset==enable){
-              return 1;
-            }else if(setUnset==disable){
-              return 0;
-             }
-             delay(5);
-      }
-//scan when is stayArmed
+     wdt_reset();
+     outputs[outputName][outputAttributeCell]=setUnset;
+     if(setUnset==enable){
+        sendSingleJson("output", "enable"); 
+      }else if(setUnset==disable){
+        sendSingleJson("output", "disable"); 
+        }
+      delay(5);
+    }
+  //scan when is stay Armed
   void ScanStayArmed(){
          
           // for(int i=0;i<=7;i++){
@@ -320,7 +326,7 @@ void writeToEeprom(byte selector){
           //       }
           //   }
         }
-//scan when is full Armed
+  //scan when is full Armed
   void scanFullArmed(){        
         for(int i=0;i<=maxZones;i++){
             if(zones[i][zoneStatusCell]==zoneOpened && !zones[i][zoneAttributeCell]==zoneInactive && zones[i][zoneBypassCell]==zoneUsed){               
@@ -334,7 +340,7 @@ void writeToEeprom(byte selector){
               }
           }               
         }
-//system is in entry delay
+  //system is in entry delay
   void inEntryDelay(){           
           if(systemStatus[systemRunningNowCell]==systemAlarmNormal){
               systemStatus[systemRunningNowCell]=systemEntryWait ;
@@ -350,7 +356,7 @@ void writeToEeprom(byte selector){
                 entryRunTime=0;
               }                
         }
-//systemis in alarm 
+  //systemis in alarm 
   void inAlarm(){                 
           if(systemStatus[systemRunningNowCell]==systemAlarmNormal){
               systemStatus[systemRunningNowCell]=systemAlarmWait ;
@@ -370,7 +376,7 @@ void writeToEeprom(byte selector){
               }                  
         }      
 
-//disarms the system
+  //disarms the system
   void systemDisarm(){
         systemStatus[systemStatusCell]=systemDisarmed;
         systemStatus[systemSubStatusCell]=systemNormal;
@@ -383,22 +389,26 @@ void writeToEeprom(byte selector){
               }
           }  
           writeToEeprom(readSystemStatus); 
-          sendDataToServer("systemDisarmed");     
+          sendSingleJson("system", "systemDisarmed");     
       }
-//system arms in stay mode
-  void armInStay(){      
-      int countOpenZones=0;
-        for(int i=0;i<=maxZones;i++){
-            if((zones[i][zoneStatusCell]==zoneOpened) && !(zones[i][zoneAttributeCell]==zoneInactive) &&!zones[i][zoneBypassCell]==zoneBypassed){
-                countOpenZones++;
-              }
-          }
-       if(countOpenZones==0){
-            systemStatus[systemStatusCell]=systemStayArmed; 
-            sendDataToServer("systemStayArm");           
-       }
-       writeToEeprom(readSystemStatus);}
-//arms system in full mode  
+  //system arms in stay mode
+  void armInStay(){   
+    wdt_reset();   
+    int countOpenZones=0;
+       for(int i=0;i<=maxZones;i++){
+           if((zones[i][zoneStatusCell]==zoneOpened) && !(zones[i][zoneAttributeCell]==zoneInactive) &&!zones[i][zoneBypassCell]==zoneBypassed){
+               countOpenZones++;
+             }
+         }
+      if(countOpenZones==0){
+           systemStatus[systemStatusCell]=systemStayArmed; 
+           sendSingleJson("system", "systemStayArm");   
+            writeToEeprom(readSystemStatus);        
+      }else{
+        sendSingleJson("system","openedZones");
+      }
+    }
+  //arms system in full mode  
   void armInFull(){
         int countOpenZones=0;        
         for(int i=0;i<=maxZones;i++){          
@@ -408,13 +418,12 @@ void writeToEeprom(byte selector){
           }          
         if(countOpenZones==0){
             systemStatus[systemStatusCell]=systemArmed;                  
-            sendDataToServer("systemArmed");
+            sendSingleJson("system","systemArmed");
             writeToEeprom(readSystemStatus);
-         }else{sendDataToServer("openedZones");}
-        
+         }else{sendSingleJson("system","openedZones");}
       }
 
-//communicate with telnet server 
+  //communicate with telnet server 
   char* receiveDataFromServer(){
     // if there are incoming bytes available
     // from the server, read them and print them:
@@ -477,7 +486,7 @@ void writeToEeprom(byte selector){
         Serial.println(ip);
       if (Ethernet.hardwareStatus() == EthernetNoHardware) {
         Serial.println("Ethernet hardware was not found.");
-          delay(1); // do nothing, no point running without Ethernet hardware    
+          delay(1);   
       }
       while (Ethernet.linkStatus() == LinkOFF) {
         Serial.println("Ethernet cable is not connected.");
@@ -497,26 +506,24 @@ void writeToEeprom(byte selector){
       }
     }
 
-  //get communds from server
+  //communicate with server and return the data
   String communicateServer(){
       wdt_reset();
       char* receivedSerData=receiveDataFromServer();
       String receivedServerData=String(receivedSerData);
-      //Serial.print(receivedSerData);
         return receivedServerData;
-       Serial.print("**-");
-
-      if(receivedServerData=="armFull"){
-        armInFull();
-      }else if(receivedServerData=="disarm"){
-        systemDisarm();
-      }else if(receivedServerData=="armStay"){
-        armInStay();
-      }else if(receivedServerData=="bypassZone"){
-        zoneBypass(2, 2);
-      } else if(receivedServerData=="status"){
-        systemStatusScan();
-      }
+       /*
+        if(receivedServerData=="armFull"){
+          armInFull();
+        }else if(receivedServerData=="disarm"){
+          systemDisarm();
+        }else if(receivedServerData=="armStay"){
+          armInStay();
+        }else if(receivedServerData=="bypassZone"){
+          zoneBypass(2, 2);
+        } else if(receivedServerData=="status"){
+          systemStatusScan();
+      }*/
     }
   //sends system status to server
   void systemStatusScan(){
@@ -538,7 +545,7 @@ void writeToEeprom(byte selector){
       sendDataToServer(tempOutputs);
     }
   //serialization to json system status
-  void sendJsonStatus(){
+  void sendJsonFullStatus(){
     // Allocate the JSON document
     JsonDocument doc;
     //system status
@@ -581,6 +588,15 @@ void writeToEeprom(byte selector){
       serializeJsonPretty(doc, Serial);
     */
     }
+  //sends a single json message to server
+  void sendSingleJson(String name, String data){
+    // Allocate the JSON document
+    JsonDocument doc;
+    // Add values in the document
+    doc[name] = data;
+    wdt_reset(); 
+    serializeJson(doc, client);
+    }  
   //receive json
   void receiveJson(String data){
     // Allocate the JSON document
@@ -613,7 +629,37 @@ void writeToEeprom(byte selector){
     double latitude = doc["data"][0];
     double longitude = doc["data"][1];
     */
- }
+    }
+  //executes commands from server
+  void commandExecute(int command, int zone, int output){
+      wdt_reset();
+      switch(command){
+        case commandDisarm: 
+          systemDisarm();
+          break;
+        case commandArm: 
+          armInFull();
+          break;       
+        case commandStayArm: 
+          armInStay();
+          break;
+        case commandBypass: 
+          zoneBypass(zone, enable);
+          break;
+          case commandUnBypass : 
+          zoneBypass(zone, disable);
+          break;
+        case commandEnableOutput: 
+          setOutput(output, enable);
+          break;
+        case commandDisableOutput:
+          setOutput(output, disable);
+          break;
+        case commandStatus: 
+          sendJsonFullStatus();
+          break;   
+      }
+    }
 
 /**********************************************************************************/  
   void loop(){    
@@ -640,10 +686,10 @@ void writeToEeprom(byte selector){
   //sendDataToServer("ar");
   delay(1400);
   wdt_reset();
-  delay(1400);
-  wdt_reset();
-  //sendJsonStatus();
-  delay(1400);
+  // delay(1400);
+  // wdt_reset();
+  // //sendJsonStatus();
+  // delay(1400);
 
   //reconnect to server with repetition delay
   if (!client.connected()){
@@ -653,12 +699,12 @@ void writeToEeprom(byte selector){
       serverReconect();
       serverReconnectTime = currentTime;  // Updates loopTime
     }
-  }
+    }
   
   //if any new data has been received then read the input  
   if(client.available()){
     receiveJson(communicateServer());
-  }
+    }
 
   //Serial.print(client.remotePort());
   //communicateServer();
