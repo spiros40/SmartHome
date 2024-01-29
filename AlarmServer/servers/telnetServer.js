@@ -1,10 +1,10 @@
 const net = require('net');
-const alarm=require('../Alarm/alarmCommands');
+const alarm=require('../Alarm/commandsToAlarmBoard');
 
 
 //telnet server
 const clients = [];
-const serverIP='192.168.1.12';
+const serverIP='192.168.1.13';
 const telnetServerPort=1500;
 //clients IP
 const alarmSystemIP='192.168.1.3';
@@ -51,6 +51,7 @@ const telnetServer = net.createServer((socket) => {
 const TELNETRun=()=>{
   telnetServer.listen(telnetServerPort, serverIP, () => {
     console.log(`Server ip ${serverIP} \n TELNET on port ${telnetServerPort}`);
+    console.log(alarm('enableOutput', '1','2'));
   });
 }
 // Broadcast the received data to all clients
@@ -79,4 +80,5 @@ const alarmSystem=(alarmCommand,alarmData)=>{
 }
 
 
-module.exports=TELNETRun;
+module.exports=TELNETRun,alarmSystem;
+//module.exports=TELNETRun;
