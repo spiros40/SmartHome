@@ -15,6 +15,7 @@ const Alarm = (command,zonesToBypass, outputs) => {
   const jsonConvert=(command, zonesToBypass, outputs)=>{
     // Create a JavaScript object
     const jsonResponce = {
+      slave:'alarm',
       command: command,
       zone: zonesToBypass,
       output: outputs
