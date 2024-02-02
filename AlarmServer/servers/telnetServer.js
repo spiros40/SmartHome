@@ -112,14 +112,14 @@ function sendToClientByIP(ipAddress, message) {
 }
 //returns data from slaves 
 const checkJson=(receivedData)=>{
-  console.log('checkJson');
   try {
     const slave = JSON.parse(receivedData);
     const slaveName = slave.slaveName;
-    console.log(`Name: ${slaveName}`);
+    console.log(`Namecheck: ${slaveName}`);
     return slaveName;
   }catch (error) {
     console.error('Error parsing JSON:', error.message);
+    return -1;
   }
 }
 //returns data from slaves 
