@@ -1,11 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
+import React, { useEffect } from 'react';
 import { StyleSheet,View} from 'react-native';
 import FrameSwitch from '../../UI/Frames/frameSwitch';
 import StatusFrame from '../../UI/Frames/statusFrame';
 import BypassFrame from './bypassFrame';
+import socket from '../../communications/coms';
 
 const AlarmScreen=({ navigation })=>{
-  
+  useEffect(() => {
+    // Example: Emit a message to the server
+    socket.emit('chat message', JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"refresh"}));
+
+    // Example: Listen for messages from the server
+    socket.on('chat message', (msg) => {
+      console.log('Message from server:', msg);
+    });
+
+    return () => {
+      // Clean up listeners when the component unmounts
+      socket.disconnect();
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonView}> 

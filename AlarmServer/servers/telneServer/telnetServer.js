@@ -1,7 +1,7 @@
 
 const net = require('net');
-const alarm=require('../Alarm/commandsToAlarmBoard');
-const slavesData=require('../Data/slavesData');
+const alarm=require('../../Alarm/commandsToAlarmBoard');
+const slavesData=require('../../Data/slavesData');
 
 
 
@@ -25,7 +25,7 @@ const telnetServer = net.createServer((socket) => {
     //console.log(`Received data from ${socket.remoteAddress}: ${receivedData}`);
     console.log(` ${receivedData}`);
     console.log(checkJson(receivedData));
-    
+    console.log(socket.remoteAddress);
     //const obj = JSON.parse(receivedData);
     //console.log(obj.status);
     if(receivedData==='ar'){

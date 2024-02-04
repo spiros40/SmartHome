@@ -1,20 +1,14 @@
-const httpsServer = require('https');
 const httpServer = require('http');
 const fs = require('fs');
 const express = require('express');
 
 const expressApp = express();
 
-const httpsServerPort=2000;
 const httpServerPort=2001;
-const serverIP='192.168.1.9';
-
-const serverOptions = {
-  key: fs.readFileSync('../AlarmServer/Certificates/key.pem'),
-  //cert: fs.readFileSync('path/to/your/certificate.pem'),
-};
+const serverIP='192.168.1.13';
 
 
+  
 expressApp.use((req, res, next) => {
   console.log(`Received request for: ${req.method} ${req.url}`);
   next();
@@ -40,13 +34,8 @@ const HTTPRun=()=>{
     console.log(`HTTP on port ${httpServerPort}`);
   });
 }
-// Start the HTTPS server
-const HTTPSRun=()=>{
-  httpsServer.createServer(serverOptions,expressApp).listen(httpsServerPort, ()=>{
-    console.log(`HTTPS on port ${httpsServerPort}`);
-  });     
-}
+  
 
 
 
-module.exports = {HTTPRun, HTTPSRun};
+module.exports = {HTTPRun};

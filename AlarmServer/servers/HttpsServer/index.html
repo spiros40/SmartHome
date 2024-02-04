@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Example</title>
+</head>
+<body>
+  <ul id="messages"></ul>
+  <form action="" id="form" autocomplete="off">
+    <input id="m" autocomplete="off" /><button>Send</button>
+  </form>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    // Listen for chat messages
+    socket.on('chat message', (msg) => {
+      const ul = document.getElementById('messages');
+      const li = document.createElement('li');
+      li.appendChild(document.createTextNode(msg));
+      ul.appendChild(li);
+    });
+
+    // Submit form to send a chat message
+    document.getElementById('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('m');
+      const message = input.value.trim();
+      if (message !== '') {
+        socket.emit('chat message', message);
+        input.value = '';
+      }
+    });
+  </script>
+</body>
+</html>
