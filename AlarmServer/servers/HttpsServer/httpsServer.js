@@ -2,6 +2,9 @@ const https = require('https');
 const fs = require('fs');
 const socketIO = require('socket.io');
 const express = require('express');
+const encryption=require('../../Data/hashing/hashing');
+const decryption=require('../../Data/hashing/verify');
+const dataDB=require('../../Data/database/database');
 
 const expressApp = express();
 
@@ -26,16 +29,30 @@ server.on('error', (error) => {
 // Event listener for handling client connections
 server.on('connection', (socket) => {
   console.log(`New connection from ${socket.remoteAddress}`);
+  //dataDB.updateValue('SmartHomeDB','Users',{name:"spy"}, { pass: "one" });//{$set:{ pass: "one" }}
+  //console.log(dataDB.findARow('SmartHomeDB','Users',{name:"spy"}));//{$set:{ pass: "one" }}
+  dataDB.findARow('SmartHomeDB','Users',{name:"spy"}).then(result => {
+    console.log(result); // Will print 'Hello, world!' when the promise resolves
+}).catch(error => {
+    console.error(error); // Handle any errors
+});
+
 });
 // Event listener for handling server close
 server.on('close', () => {
   console.log('Server closed');
 });
 // Start the HTTPS server
-const HTTPSRun=()=>{
+const HTTPSEneble=()=>{
   try{
     server.listen(serverPort, serverIP, () => {
     console.log(`Server ip ${serverIP} \n Https on port ${serverPort}`);
+    encryption('code');
+    decryption('code');
+    dataDB.connect();
+    
+
+
   });
   }catch (error) {
     console.log(error);
@@ -93,4 +110,4 @@ const checkJson=(receivedData)=>{
 
 
 
-module.exports = {HTTPSRun};
+module.exports = {HTTPSEneble};

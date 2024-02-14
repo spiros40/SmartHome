@@ -80,7 +80,7 @@ const telnetServer = net.createServer((socket) => {
   });
 });
 //init the telnet server
-const TELNETRun=()=>{
+const TELNETEneble=()=>{
   try{
     telnetServer.listen(telnetServerPort, serverIP, () => {
     console.log(`Server ip ${serverIP} \n TELNET on port ${telnetServerPort}`);
@@ -167,5 +167,5 @@ const alarmSystem=(alarmCommand,alarmData)=>{
 //   // You might want to log the error and handle it gracefully
 // });
 
-module.exports=TELNETRun,alarmSystem;
+module.exports=TELNETEneble,alarmSystem;
 //module.exports=TELNETRun;

@@ -1,5 +1,3 @@
-
-
 const Alarm = (command,zonesToBypass, outputs) => {
   /*server commands*/            
   let commandDisarm=0,
@@ -65,14 +63,3 @@ const Alarm = (command,zonesToBypass, outputs) => {
   
   module.exports = Alarm;
 
-
-  /*//check array for wrong value and remove them
-      const removeContition=(elementToRemove)=>elementToRemove < 0 || elementToRemove > 16;
-      const readyArray=zonesToBypass.filter((elementToRemove) => !removeContition(elementToRemove));
-      if(typeof emptyArray != 'undefined' &&
-        emptyArray != null &&
-        emptyArray.length != null &&
-        emptyArray.length > 0){
-        const arrayAsString = readyArray.join(',');
-        return commandBypass `${arrayAsString}`;
-      }else{return -1;}*/

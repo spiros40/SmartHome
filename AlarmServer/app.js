@@ -1,11 +1,11 @@
-const {HTTPSRun, HTTPRun} =require('./servers/HttpsServer/httpsServer');
-const TELNETRun=require('./servers/telneServer/telnetServer');
+const {HTTPSEneble, HTTPRun} =require('./servers/HttpsServer/httpsServer');
+const TELNETEneble=require('./servers/telneServer/telnetServer');
 
 // Start the Telnet server
-//TELNETRun();
+//TELNETEneble();
 
 // Start the HTTPS server
-HTTPSRun();
+HTTPSEneble();
 
 // Start the HTTP server
 //HTTPRun();
