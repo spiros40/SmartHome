@@ -1,12 +1,11 @@
 const { MongoClient } = require('mongodb');
-//const db = require('./db');
+
 
 // Connection URI
-const uri = 'mongodb://127.0.0.1:27017';
+const url = 'mongodb://127.0.0.1:27017';
 
 // Create a new MongoClient instance
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
+const client = new MongoClient(url, {});
 // Function to connect to MongoDB
 async function connect() {
   try {

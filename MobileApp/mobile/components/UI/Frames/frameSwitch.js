@@ -1,12 +1,23 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
+import socket from '../../communications/coms';
 import { StyleSheet, Text,
   View,Switch,Image} from 'react-native';
 
   export default function frameSwitch(props) {
+    let execute=true;
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => {setIsEnabled(previousState => !previousState);
+      //{"serverName":"server","status":"armAway","zones":"1,2"}) =={"slaveName":"mobileApp","page":"alarm","command":`${props.name}`}
+      socket.emit('chat message', JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":`${props.name}`,"execute":`${execute}`, 
+      "zones":"1,2,3","outputs":"1,2"
+   }));
+  }
     
-    const [isEnabled, setIsEnabled] = useState(props.state);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-    console.log(props.name+"  "+isEnabled);
+    //refres the value whoo change from server
+      useEffect(() => {
+        setIsEnabled(props.state);
+      }, [props.state]);
+
 
     return (
       <View style={[styles.container,styles.shadowProp]}>
@@ -20,6 +31,7 @@ import { StyleSheet, Text,
             trackColor={{false: '#cc0000', true: '#8fce00'}}
             thumbColor={isEnabled ? '#318ce7' : '#f0f8ff'}
             onValueChange={toggleSwitch}
+            onChange={execute=!isEnabled}
             value={isEnabled}
           />   
         </View>   

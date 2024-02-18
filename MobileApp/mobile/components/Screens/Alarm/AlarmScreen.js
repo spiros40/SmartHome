@@ -1,26 +1,66 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { StyleSheet,View} from 'react-native';
 import FrameSwitch from '../../UI/Frames/frameSwitch';
 import StatusFrame from '../../UI/Frames/statusFrame';
 import BypassFrame from './bypassFrame';
 import socket from '../../communications/coms';
+import jsonFromServer from './JsonFromServer';
 
-const AlarmScreen=({ navigation })=>{
+const AlarmScreen=()=>{
+  const [armAway, setArmAway] = useState(false);
+  const [armStay, setArmStay] = useState(false);
+  const [disarm, setDisarm] = useState(false);
+  const [bypass, setBypass] = useState(false);
+  const [statusText, setstatusText] = useState('');
+
+  const systemStatus=(status)=>{
+    switch(status){
+      case 'Arm Away':
+        setArmAway(true);
+        setArmStay(false);
+        setDisarm(false);
+    break;
+      case 'Arm Stay':
+        setArmAway(false);
+        setArmStay(true);
+        setDisarm(false);
+    break;
+      case 'Disarm':
+        setArmAway(false);
+        setArmStay(false);
+        setDisarm(true);
+    break;
+  }
+}
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     // This function will be called every 30 seconds
+  //    // setArmAway(previousState => !previousState);
+  //     console.log('++++++alarm screen  '+armAway);
+  //   }, 10000); // 30 seconds in milliseconds
+
+  //   // Cleanup function to clear the interval when the component unmounts
+  //   return () => clearInterval(interval);
+  // }, [armAway]);
+  //
   useEffect(() => {
-    // Example: Emit a message to the server
+    // Emit a message to the server "slaveName":"mobileApp","page":"alarm","command":"refresh" 
     socket.emit('chat message', JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"refresh"}));
-
-    // Example: Listen for messages from the server
+    // Listen for messages from the server
     socket.on('chat message', (msg) => {
       console.log('Message from server:', msg);
+      let jsonParsedMsg= jsonFromServer(msg);
+      setstatusText(`${jsonParsedMsg.command}`+" Zones: "+`${jsonParsedMsg.zones}`+" Outputs: "+`${jsonParsedMsg.outputs}`);
+      systemStatus(jsonParsedMsg.command);
+      console.log(jsonParsedMsg.command+'----------------------');
     });
-
     return () => {
       // Clean up listeners when the component unmounts
       socket.disconnect();
     };
-  }, []);
+  }, [socket.on]);
 
   return (
     <View style={styles.container}>
@@ -28,29 +68,30 @@ const AlarmScreen=({ navigation })=>{
         <FrameSwitch
           name="Arm Away"
           source={require('../../../Data/Pics/arm.png')}
-          state={false}
+          state={armAway}
         />
         <FrameSwitch
           name="Arm Stay"
           source={require('../../../Data/Pics/stayArm.png')}
-          state={false}
+          state={armStay}
         />
       </View>
       <View style={styles.buttonView}> 
         <FrameSwitch
           name="Disarm"
           source={require('../../../Data/Pics/disarm.png')}
-          state={false}
+          state={disarm}
         />
         <BypassFrame
           name="Bypass"
           source={require('../../../Data/Pics/bypass.png')}
+          zones={"1"}
         />
       </View>
       <View>
         <StatusFrame
           name="Alarm Status"
-          recievedText="recievedText"
+          recievedText={statusText}
         />
       </View>
       <StatusBar style="auto" />
