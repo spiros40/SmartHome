@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, Pressable, Modal, ScrollView } from 'rea
 import socket from '../../communications/coms';
 import { CheckBox } from 'react-native-elements'; // Import CheckBox from react-native-elements
 
-const BypassFrame = (props) => {
+const bypassFrame = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [zones, setZones] = useState(Array(16).fill(false)); // Initialize zones array with 16 elements
 
@@ -78,7 +78,7 @@ const BypassFrame = (props) => {
           source={props.source}
         />
         <Pressable onPress={() => setModalVisible(!modalVisible)} >
-          <Text>Zones</Text>
+          <Text style={styles.Text}>Zones</Text>
         </Pressable>
       </View>
       <View style={styles.nameView} >
@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(33,150,243, 0.8)',
     borderRadius: 10,
-    width: 110,
-    height: 90,
+    width: 150,
+    height: 100,
   },
   modalView: {
     backgroundColor: 'rgba(249,109,0,0.8)',
@@ -109,14 +109,18 @@ const styles = StyleSheet.create({
       height: 2,
     }
   },
+  Text: {
+    fontSize: 20,
+    fontWeight:'bold'  
+  },
   modalCloseButton: {
     backgroundColor: 'rgba(33,150,243, 0.8)',
     borderRadius: 10,
     padding: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingLeft: 50,
+    paddingRight: 50,
     marginTop: 10,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   top: {
@@ -130,13 +134,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    margin: 3,
+    margin: 0.1,
     gap: 10,
   },
   checkboxText: {
-    marginTop: 1,
+    marginTop: 10,
+    marginEnd:25,
     fontWeight: 'bold',
     userSelect: 'none', // This line prevents text selection
+    textAlign:'center',
+    fontSize:15,
   },
   nameView: {
     flex: 2,
@@ -148,6 +155,9 @@ const styles = StyleSheet.create({
   nameText: {
     fontWeight: 'bold',
     textDecorationLine: "underline",
+    textAlign:'center',
+    fontSize:18,
+    marginTop:12
   },
   shadowProp: {
     shadowColor: 'black',
@@ -156,8 +166,8 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
   },
   tinyLogo: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
   },
   logo: {
     width: 50,
@@ -241,7 +251,7 @@ const styles = StyleSheet.create({
 //   },
 // });
 
-export default BypassFrame;
+export default bypassFrame;
 
 
 

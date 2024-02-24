@@ -6,10 +6,16 @@ const slaveComRequest=(receivedData)=>{
     switch(slaveName.slaveName){
         case "alarm":
             
-        break;
+          break;
         case "telnetServer":
             
-        break;
+          break;
+        case "mobileApp":
+            
+          break;
+        case "httpsServer":
+            
+          break;
     }
 }
 

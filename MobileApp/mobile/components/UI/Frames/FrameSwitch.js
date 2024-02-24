@@ -3,9 +3,12 @@ import socket from '../../communications/coms';
 import { StyleSheet, Text,
   View,Switch,Image} from 'react-native';
 
-  export default function frameSwitch(props) {
+  export default function FrameSwitch(props) {
     let execute=true;
     const [isEnabled, setIsEnabled] = useState(false);
+    const notExecute=()=>{
+      execute=!isEnabled;
+    }
     const toggleSwitch = () => {setIsEnabled(previousState => !previousState);
       //{"serverName":"server","status":"armAway","zones":"1,2"}) =={"slaveName":"mobileApp","page":"alarm","command":`${props.name}`}
       socket.emit('chat message', JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":`${props.name}`,"execute":`${execute}`, 
@@ -31,7 +34,8 @@ import { StyleSheet, Text,
             trackColor={{false: '#cc0000', true: '#8fce00'}}
             thumbColor={isEnabled ? '#318ce7' : '#f0f8ff'}
             onValueChange={toggleSwitch}
-            onChange={execute=!isEnabled}
+            //onChange={execute=!isEnabled}
+            onChange={notExecute}
             value={isEnabled}
           />   
         </View>   
@@ -47,29 +51,32 @@ import { StyleSheet, Text,
     container: {
       backgroundColor: 'rgba(33,150,243, 0.8)',
       borderRadius:10,
-      width:110,
-      height:90,
+      width:150,
+      height:100,
     },
     top:{
         flex:1,
         flexDirection: 'row',
         flexWrap: 'wrap',
         margin: 10,
-        gap: 20,
+        gap: 40,
     },
     switchStyle:{
-      paddingTop:10,
+      transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] // Initial size of the switch
     },
     nameView:{
         flex:2,
         flexDirection: 'row',
-        margin: 20,
+        margin: 10,
         textAlign:'center',
         position:'relative'
       },
     nameText:{
       fontWeight:'bold',
       textDecorationLine:"underline",
+      textAlign:'center',
+      fontSize:18,
+      marginTop:12
     },
     shadowProp:{
         shadowColor: 'black',
@@ -78,8 +85,8 @@ import { StyleSheet, Text,
         shadowRadius: 10,
     },
     tinyLogo: {
-        width: 30,
-        height: 30,
+        width: 40,
+        height: 40,
       },
       logo: {
         width: 50,

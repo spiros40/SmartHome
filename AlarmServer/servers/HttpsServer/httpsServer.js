@@ -1,4 +1,5 @@
 const https = require('https');
+const net = require('net');
 const fs = require('fs');
 const socketIO = require('socket.io');
 const express = require('express');
@@ -11,9 +12,10 @@ const expressApp = express();
 
 const serverPort=2000;
 const serverIP='192.168.1.13';
-// Array to store client information
+const telnetServerPort=1500;
+// Array to store conneced client information
 const connectedClients = [];
-//============
+
 function delay(ms) {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -28,6 +30,30 @@ const serverOptions = {
   
 };
 
+// client telnet send data to tellnet server
+const sendDataToTelnetServer=(telnetServerPort,jsonMessage )=> {
+  const telnetClient = net.connect({
+    host: '192.168.1.13',
+    port: telnetServerPort,
+  });
+  const dataToSend = JSON.stringify(jsonMessage);
+  telnetClient.write(dataToSend);
+  //receive from data from telnet
+  telnetClient.on('data', (data) => {
+    console.log('Received from Telnet server:', data.toString());
+    // Process the data as needed
+  });
+  telnetClient.setTimeout(60000);
+  telnetClient.on('timeout', () => {
+    console.log('socket timeout');
+    telnetClient.end();
+    });
+  //telnetClient.end();
+
+  telnetClient.on('error', (err) => {
+    console.error('Telnet connection error:', err.message);
+  });
+}
 //server constractors and error listeners
 const server = https.createServer(serverOptions, (req, res) => {
   res.writeHead(200);
@@ -40,7 +66,8 @@ server.on('error', (error) => {
 // Event listener for handling client connections
 server.on('connection', (socket) => {
   // Store client information in the array  
-  console.log(`New connection from ${socket.remoteAddress}`);
+  console.log(`New Https connection from ${socket.remoteAddress}`);
+  
   //dataDB.updateValue('SmartHomeDB','Users',{name:"spy"}, { pass: "one" });//{$set:{ pass: "one" }}
   //console.log(dataDB.findARow('SmartHomeDB','Users',{name:"spy"}));//{$set:{ pass: "one" }}
   dataDB.findARow('SmartHomeDB','Users',{name:"spy"}).then(result => {
@@ -55,7 +82,7 @@ server.on('close', () => {
   console.log('Server closed');
 });
 // Start the HTTPS server
-const HTTPSEneble=()=>{
+const HTTPSEnable=()=>{
   try{
     server.listen(serverPort, serverIP, () => {
     console.log(`Server ip ${serverIP} \n Https on port ${serverPort}`);
@@ -82,24 +109,25 @@ expressApp.use(express.static('public'));
 
 // Set up a basic route
 expressApp.get('/', (req, res) => {
-  console.log('+++++++++');
   res.sendFile('index.html');
 });
 
 // Handle WebSocket connections
 io.on('connection', (socket) => {
-  console.log('A user connected');
+  console.log('A Https user connected');
   // Listen for messages from the client
   socket.on('chat message', (msg) => {
-  // Check if the socket ID is already in the array
-  let slaveName=checkJson(msg)
+  
+  //adds connected client to an array
   const existingClient = connectedClients.find(client => client.id === socket.id);
     if (!existingClient) {
+      let slaveName=checkJson(msg)
       // If the socket ID doesn't exist, add it to the array
       connectedClients.push({ id: socket.id, ip: socket.handshake.address, slaveName: slaveName.slaveName });
     }
-  console.log(`Message from ${socket.id}: ${io.remoteAddress}: ${msg}`);
+  console.log(`Message from HttpsServer  ${socket.id}: ${msg}`);
   console.log(connectedClients);
+  sendDataToTelnetServer(telnetServerPort, {"slaveName":"mobileApp","page":"alarm","command":"refresh","execute":"true","zones":"0","output":"0"})
     //checkJson(msg);
    // slaveComRequest(checkJson(msg));
     // Broadcast the message to all connected clients
@@ -110,6 +138,7 @@ io.on('connection', (socket) => {
   //   io.emit('chat message', JSON.stringify({"serverName":"server","status":"armAway","zones":"1,2"}))
   // }) 
 
+
   // Broadcast the message to all connected clients
   // io.emit('chat message', msg);JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"refresh"})
   // Send data to the specific socket ID
@@ -117,22 +146,17 @@ io.on('connection', (socket) => {
   });
   // Listen for disconnect event
   socket.on('disconnect', () => {
-    console.log('User  '+ `${socket.id}` +'  disconnected');
+    console.log('Https User  '+ `${socket.id}` +'  disconnected');
     // Remove client information from the array upon disconnection
     const index = connectedClients.findIndex(client => client.id === socket.id);
     if (index !== -1) {
       connectedClients.splice(index, 1);
     }
-    console.log(connectedClients);
+    console.log('https users ' +connectedClients);
   });
-
-// //check which slave want to communicate
-// const slaveComRequest=(slaveData)=>{
-
-// }
 
 });
 
 
 
-module.exports = {HTTPSEneble};
+module.exports = {HTTPSEnable};

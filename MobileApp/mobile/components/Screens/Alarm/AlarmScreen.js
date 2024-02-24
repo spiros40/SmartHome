@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect,useState } from 'react';
 import { StyleSheet,View} from 'react-native';
-import FrameSwitch from '../../UI/Frames/frameSwitch';
-import StatusFrame from '../../UI/Frames/statusFrame';
-import BypassFrame from './bypassFrame';
+import FrameSwitch from '../../UI/Frames/FrameSwitch';
+import StatusFrame from '../../UI/Frames/StatusFrame';
+import BypassFrame from './BypassFrame';
 import socket from '../../communications/coms';
 import jsonFromServer from './JsonFromServer';
 
@@ -102,10 +102,11 @@ const AlarmScreen=()=>{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(191 219 204)',
+    //backgroundColor: 'rgb(191 219 204)',
+    backgroundColor: 'rgb(5, 10, 10)',
     alignItems: 'center',
     justifyContent: 'center',
-    gap:10,
+    gap:20,
   },
   titleText:{
     color: 'black',

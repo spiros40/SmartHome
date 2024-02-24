@@ -5,15 +5,16 @@ import MainFrame from '../UI/Frames/Mainframe';
 const MainScreen=({ navigation, ...props })=>{
 
     return(
-      <ScrollView>
         <View style={styles.container}>
         <View style={styles.team}>
           <MainFrame
+            key="alarm"
             name="Alarm"
             source={require('../../Data/Pics/homeAlarm.png')}
             onPress={()=>{navigation.navigate('Alarm')}}
           />
           <MainFrame
+            key="smartHome"
             name="Smart Home"
             source={require('../../Data/Pics/smartHome.png')}
             onPress={()=>{navigation.navigate('SmartHomeScreen')}}
@@ -21,27 +22,30 @@ const MainScreen=({ navigation, ...props })=>{
         </View>
         <View style={styles.team}>
           <MainFrame
+            key="notifications"
             name="Notifications"
             source={require('../../Data/Pics/notifications.png')}
             onPress={()=>{navigation.navigate('Notifications')}}
           />
           <MainFrame
+            key="settings"
             name="Settings"
             source={require('../../Data/Pics/settings.png')}
             onPress={()=>{navigation.navigate('Settings')}}
           />
         </View>
         </View>
-    </ScrollView>
     );
 }
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'rgb(191 219 204)',
+      backgroundColor: 'black',
+    
       alignItems: 'center',
       justifyContent: 'center',
-      gap:10,
+      gap:20,
+      
     },
     titleText:{
       color: 'black',
@@ -55,6 +59,7 @@ const styles = StyleSheet.create({
       flexWrap: 'wrap',
       marginTop: 8,
       gap: 15,
+      
     },
     
     bypassView:{

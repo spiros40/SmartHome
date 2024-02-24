@@ -3,7 +3,6 @@ import MainFrame from '../../UI/Frames/Mainframe';
 
 const SmartHomeScreen=(props)=>{
   return(
-        <ScrollView>
         <View style={styles.container}>
             <View style={styles.team}>
             <MainFrame
@@ -26,7 +25,6 @@ const SmartHomeScreen=(props)=>{
           />
         </View>
         </View>
-    </ScrollView>
     );
 }
 

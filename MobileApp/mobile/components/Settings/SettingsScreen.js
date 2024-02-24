@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet,View} from 'react-native';
-import Frame from '../UI/Frames/frameSwitch';
-import StatusFrame from '../UI/Frames/statusFrame';
-import BypassFrame from '../Screens/Alarm/bypassFrame';
+import Frame from '../UI/Frames/FrameSwitch';
+import StatusFrame from '../UI/Frames/StatusFrame';
+import BypassFrame from '../Screens/Alarm/BypassFrame';
 
 const SettingsScreen=({ navigation })=>{
   

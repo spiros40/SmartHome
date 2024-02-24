@@ -11,7 +11,7 @@ import 'react-native-gesture-handler';
 const Stack = createNativeStackNavigator();
 //const Tab = createBottomTabNavigator();
 
-const stackNavigator=()=>{
+const StackNavigator=()=>{
   return (
        <Stack.Navigator initialRouteName="MainScreen">
          <Stack.Screen 
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default stackNavigator;
+export default StackNavigator;

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet,View,ActivityIndicator,Button,Text} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer} from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import BottomNavigatorBar from './components/UI/Menu/BottomNavigatorBar';
 

@@ -26,23 +26,25 @@ const Mainframe=({ navigation, ...props })=>{
   const styles = StyleSheet.create({
     container: {
       backgroundColor: 'rgba(33,150,243, 0.8)',
-      borderRadius:10,
-      width:110,
-      height:90,
       
+      borderRadius:10,
+      width:150,
+      height:110,
+      margin:10
     },
     top:{
-      paddingTop:5,
+      paddingTop:10,
       alignSelf:'center'
     },
     nameView:{
         alignSelf:'center',
         position:'relative',
-        paddingTop:8,
+        paddingTop:18,
       },
     nameText:{
       fontWeight:'bold',
       textDecorationLine:"underline",
+      fontSize:18,
     },
     shadowProp:{
         shadowColor: 'black',
@@ -51,12 +53,12 @@ const Mainframe=({ navigation, ...props })=>{
         shadowRadius: 10,
     },
     tinyLogo: {
-        width: 30,
-        height: 30,
-      },
-      logo: {
         width: 40,
         height: 40,
+      },
+      logo: {
+        width: 50,
+        height: 50,
       },
   });
   

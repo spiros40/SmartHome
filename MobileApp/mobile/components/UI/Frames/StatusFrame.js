@@ -2,7 +2,7 @@ import { StyleSheet, Text,Button,
   View,TextInput} from 'react-native';
 
 
-const statusFrame=(props)=>{
+const StatusFrame=(props)=>{
   
   return (
       <View style={styles.alarmView}>
@@ -19,8 +19,8 @@ const statusFrame=(props)=>{
 const styles = StyleSheet.create({
     alarmView:{
       margin:10,
-      width:240,
-      height:80,
+      width:320,
+      height:150,
       backgroundColor:'rgba(33,150,243, 0.8)',
       color:"black",
       borderRadius:10,
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
       },
   
 });
-export default statusFrame;
+export default StatusFrame;
