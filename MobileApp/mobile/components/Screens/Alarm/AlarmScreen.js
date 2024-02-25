@@ -7,6 +7,7 @@ import BypassFrame from './BypassFrame';
 import socket from '../../communications/coms';
 import jsonFromServer from './JsonFromServer';
 
+
 const AlarmScreen=()=>{
   const [armAway, setArmAway] = useState(false);
   const [armStay, setArmStay] = useState(false);
@@ -34,6 +35,7 @@ const AlarmScreen=()=>{
   }
 }
 
+
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     // This function will be called every 30 seconds
@@ -46,6 +48,7 @@ const AlarmScreen=()=>{
   // }, [armAway]);
   //
   useEffect(() => {
+      console.log('*9*9*9')
     // Emit a message to the server "slaveName":"mobileApp","page":"alarm","command":"refresh" 
     socket.emit('chat message', JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"refresh"}));
     // Listen for messages from the server

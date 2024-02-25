@@ -1,10 +1,11 @@
-import {View,ScrollView,StyleSheet} from 'react-native';
+import {View,StyleSheet} from 'react-native';
+import React, { useEffect } from 'react';
 import MainFrame from '../UI/Frames/Mainframe';
 
 
 const MainScreen=({ navigation, ...props })=>{
 
-    return(
+  return(
         <View style={styles.container}>
         <View style={styles.team}>
           <MainFrame
