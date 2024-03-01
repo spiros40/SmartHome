@@ -1,3 +1,133 @@
+const {createServer} = require('node:https');
+const {net} = require('net');
+const fs = require('fs');
+//const {socketIO} = require('socket.io');
+const {Server}=require('socket.io');
+const encryption=require('../../Data/hashing/hashing');
+const decryption=require('../../Data/hashing/verify');
+const dataDB=require('../../Data/database/database');
+const checkJson=require('../../Data/Json/chechJson');
+const cors = require('cors');
+
+//const serverPort=2000;
+const serverPort=2000;
+const serverIP='192.168.1.13';
+const telnetServerPort=1500;
+// Array to store conneced client information
+const connectedClients = [];
+
+function delay(ms) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+}
+
+const serverOptions = {
+  secureOptions: require('constants').SSL_OP_ALL, // Enable all SSL/TLS versions
+  //key: fs.readFileSync('servers/HttpsServer/server.key'),
+  //key: fs.readFileSync('servers/HttpsServer/certs/localhost.key'),
+  //cert: fs.readFileSync('servers/HttpsServer/server.cert'),
+  //cert: fs.readFileSync('servers/HttpsServer/certs/localhost.crt'),
+
+  key: fs.readFileSync('servers/HttpsServer/certs/cert.pem'),
+  cert: fs.readFileSync('servers/HttpsServer/certs/key.pem'),
+    // Adjust minVersion and maxVersion to support common SSL/TLS protocol versions
+    minVersion: 'TLSv1.2',  // Minimum supported TLS version
+    maxVersion: 'TLSv1.3',  // Maximum supported TLS version (if available)
+    // Use default cipher suites supported by Node.js (optional)
+    // cipherSuites: tls.DEFAULT_CIPHERS,
+    // Or specify specific cipher suites (optional)
+    //  cipherSuites: [
+    //     'ECDHE-RSA-AES256-GCM-SHA384',
+    //     'ECDHE-RSA-AES128-GCM-SHA256',
+    //     // Add more ciphers as needed
+    //   ].join(':')
+  
+};
+
+// client telnet send data to tellnet server
+const sendDataToTelnetServer=(telnetServerPort,jsonMessage )=> {
+  const telnetClient = net.connect({
+    host: '192.168.1.13',
+    port: telnetServerPort,
+  });
+  const dataToSend = JSON.stringify(jsonMessage);
+  telnetClient.write(dataToSend);
+  //receive from data from telnet
+  telnetClient.on('data', (data) => {
+    console.log('Received from Telnet server:', data.toString());
+    // Process the data as needed
+  });
+  telnetClient.setTimeout(60000);
+  telnetClient.on('timeout', () => {
+    console.log('socket timeout');
+    telnetClient.end();
+    });
+  //telnetClient.end();
+
+  telnetClient.on('error', (err) => {
+    console.error('Telnet connection error:', err.message);
+  });
+}
+//server constractors and error listeners
+const httpsServer = createServer({serverOptions});
+
+// Start the HTTPS server
+const HTTPSEnable=()=>{
+  try{
+    httpsServer.listen(serverPort, serverIP, () => {
+    console.log(`Https Server ip ${serverIP}  on port ${serverPort}`);
+  });
+  }catch (error) {
+    console.log(error);
+  }
+}
+
+// Create a WebSocket server attached to the HTTPS server
+const io = new Server(httpsServer, cors
+  // cors: {
+  //       origin: 'https://192.168.1.13:2000',
+  //       methods: ['GET', 'POST'],
+  //       credentials: true // Allow credentials if needed
+  //     }
+ );
+
+// Handle WebSocket connections
+io.on('connection', (socket) => {
+  console.log('A Https user connected');
+  // Listen for messages from the client
+  socket.on('chat message', (msg) => {
+  //adds connected client to an array
+  const existingClient = connectedClients.find(client => client.id === socket.id);
+    if (!existingClient) {
+      let slaveName=checkJson(msg)
+      // If the socket ID doesn't exist, add it to the array
+      connectedClients.push({ id: socket.id, ip: socket.handshake.address, slaveName: slaveName.slaveName });
+    }
+    console.log(`Message from HttpsServer  ${socket.id}: ${msg}`);
+    console.log(connectedClients);
+    sendDataToTelnetServer(telnetServerPort, {"slaveName":"mobileApp","page":"alarm","command":"refresh","execute":"true","zones":"0","output":"0"})
+    io.emit('chat message', JSON.stringify(checkJson(msg)));
+  });
+  // Listen for disconnect event
+  io.on('disconnect', () => {
+    console.log('Https User  '+ `${socket.id}` +'  disconnected');
+    // Remove client information from the array upon disconnection
+    const index = connectedClients.findIndex(client => client.id === socket.id);
+    if (index !== -1) {
+      connectedClients.splice(index, 1);
+    }
+    console.log('https users ' +connectedClients);
+  });
+
+});
+
+module.exports = {HTTPSEnable};
+
+
+/*27/02
 const https = require('https');
 const net = require('net');
 const fs = require('fs');
@@ -8,6 +138,7 @@ const dataDB=require('../../Data/database/database');
 const checkJson=require('../../Data/Json/chechJson');
 const cors = require('cors');
 
+//const serverPort=2000;
 const serverPort=2000;
 const serverIP='192.168.1.13';
 const telnetServerPort=1500;
@@ -25,7 +156,9 @@ function delay(ms) {
 const serverOptions = {
   secureOptions: require('constants').SSL_OP_ALL, // Enable all SSL/TLS versions
   key: fs.readFileSync('servers/HttpsServer/server.key'),
+  //key: fs.readFileSync('servers/HttpsServer/certs/localhost.key'),
   cert: fs.readFileSync('servers/HttpsServer/server.cert'),
+  //cert: fs.readFileSync('servers/HttpsServer/certs/localhost.crt'),
   
 };
 
@@ -57,6 +190,47 @@ const sendDataToTelnetServer=(telnetServerPort,jsonMessage )=> {
 const server = https.createServer(serverOptions, (req, res) => {
   res.writeHead(200);
   res.end('Hello, this is an HTTPS server!\n');
+  console.log(req)
+  io.on('connection', (socket) => {
+  console.log('A Https user connected');
+  // Listen for messages from the client
+  socket.on('chat message', (msg) => {
+  //adds connected client to an array
+  const existingClient = connectedClients.find(client => client.id === socket.id);
+    if (!existingClient) {
+      let slaveName=checkJson(msg)
+      // If the socket ID doesn't exist, add it to the array
+      connectedClients.push({ id: socket.id, ip: socket.handshake.address, slaveName: slaveName.slaveName });
+    }
+  console.log(`Message from HttpsServer  ${socket.id}: ${msg}`);
+  console.log(connectedClients);
+  //sendDataToTelnetServer(telnetServerPort, {"slaveName":"mobileApp","page":"alarm","command":"refresh","execute":"true","zones":"0","output":"0"})
+    //checkJson(msg);
+   // slaveComRequest(checkJson(msg));
+    // Broadcast the message to all connected clients
+   // io.emit('chat message', msg);JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"refresh"})
+  io.emit('chat message', JSON.stringify(checkJson(msg)));
+   //  io.emit('chat message', JSON.stringify({"serverName":"server","status":"disarm","zones":"1,2"}))
+  //  delay(10000).then(() => { // Delay for 2000 milliseconds (2 seconds)
+  //   io.emit('chat message', JSON.stringify({"serverName":"server","status":"armAway","zones":"1,2"}))
+  // }) 
+  // Broadcast the message to all connected clients
+  // io.emit('chat message', msg);JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"refresh"})
+  // Send data to the specific socket ID
+  // io.to(socketID).emit('chat message', msg);
+  });
+  // Listen for disconnect event
+  io.on('disconnect', () => {
+    console.log('Https User  '+ `${socket.id}` +'  disconnected');
+    // Remove client information from the array upon disconnection
+    const index = connectedClients.findIndex(client => client.id === socket.id);
+    if (index !== -1) {
+      connectedClients.splice(index, 1);
+    }
+    console.log('https users ' +connectedClients);
+  });
+
+});
 });
 
 
@@ -64,7 +238,7 @@ const server = https.createServer(serverOptions, (req, res) => {
 const HTTPSEnable=()=>{
   try{
     server.listen(serverPort, serverIP, () => {
-    console.log(`Server ip ${serverIP}  on port ${serverPort}`);
+    console.log(`Https Server ip ${serverIP}  on port ${serverPort}`);
     //encryption('code');
     //decryption('code');
     //dataDB.connect();
@@ -126,6 +300,7 @@ io.on('connection', (socket) => {
 });
 
 module.exports = {HTTPSEnable};
+*/
 
 /*25/02
 const https = require('https');

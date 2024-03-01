@@ -1,15 +1,17 @@
-const {HTTPSEnable, HTTPRun} =require('./servers/HttpsServer/httpsServer');
+//const {HTTPSEnable} =require('./servers/HttpsServer/httpsServer');
 const TELNETEnable=require('./servers/telneServer/telnetServer');
+//const HTTPRun=require('./servers/httpServer/httpServer');
+const comServer=require('./servers/ComServer/comServer');
 
 // Start the Telnet server
 TELNETEnable();
 
 // Start the HTTPS server
-HTTPSEnable();
+//HTTPSEnable();
 
 // Start the HTTP server
 //HTTPRun();
-
+comServer();
 /*
 const net = require('net');
 const alarm=require('Alarm/alarmCommands');

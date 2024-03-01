@@ -48,6 +48,7 @@ const AlarmScreen=()=>{
   // }, [armAway]);
   //
   useEffect(() => {
+   
       console.log('*9*9*9')
     // Emit a message to the server "slaveName":"mobileApp","page":"alarm","command":"refresh" 
     socket.emit('chat message', JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"refresh"}));
