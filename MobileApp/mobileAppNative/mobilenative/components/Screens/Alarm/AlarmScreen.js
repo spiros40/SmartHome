@@ -34,18 +34,18 @@ const AlarmScreen=()=>{
   }
 }
 
-  useEffect(() => {
-   
+  useEffect(() => {   
       console.log('*9*9*9')
     // Emit a message to the server "slaveName":"mobileApp","page":"alarm","command":"refresh" 
-    socket.emit('chat message', JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"refresh"}));
+    socket.emit('chat message', JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"Refresh"}));
     // Listen for messages from the server
     socket.on('chat message', (msg) => {
       console.log('Message from server:', msg);
       let jsonParsedMsg= jsonFromServer(msg);
-      setstatusText(`${jsonParsedMsg.command}`+" Zones: "+`${jsonParsedMsg.zones}`+" Outputs: "+`${jsonParsedMsg.outputs}`);
+      //setstatusText(`${jsonParsedMsg.command}`+" Zones: "+`${jsonParsedMsg.zones}`+" Outputs: "+`${jsonParsedMsg.outputs}`);
+      setstatusText(`${jsonParsedMsg.command}  ${jsonParsedMsg.zones !== undefined ? 'Zones:'+jsonParsedMsg.zones : ''} 
+      ${jsonParsedMsg.outputs !== undefined ? 'Outputs:'+jsonParsedMsg.outputs : ''}`);
       systemStatus(jsonParsedMsg.command);
-      console.log(jsonParsedMsg.command+'----------------------');
     });
     return () => {
       // Clean up listeners when the component unmounts

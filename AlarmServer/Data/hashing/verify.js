@@ -11,8 +11,10 @@ const hashedPasswordFromDB = '$2b$10$4ad2QEoO3f3F9rxC77yPz.4p65a/epgQforOUTz0yte
         }
         if (result) {
             console.log('Password is correct');
+            return true;
         } else {
             console.log('Password is incorrect');
+            return false;
         }
     });
 };

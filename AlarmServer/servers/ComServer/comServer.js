@@ -6,6 +6,7 @@ const decryption=require('../../Data/hashing/verify');
 const dataDB=require('../../Data/database/database');
 const checkJson=require('../../Data/Json/chechJson');
 const http = require('http');
+const textEncrypt=require('../../Data/hashing/textEncrypt');
 
 
 const serverPort=process.env.PORT || 2000;
@@ -21,9 +22,9 @@ function delay(ms) {
     });
   }
 // client telnet send data to tellnet server
-const sendDataToTelnetServer=(telnetServerPort,jsonMessage )=> {
+const sendDataToTelnetServer=(telnetServerPort,serverIP,jsonMessage )=> {
     const telnetClient = net.connect({
-      host: '192.168.1.13',
+      host: serverIP,
       port: telnetServerPort,
     });
     const dataToSend = JSON.stringify(jsonMessage);
@@ -46,6 +47,10 @@ const sendDataToTelnetServer=(telnetServerPort,jsonMessage )=> {
   }
 const comServer=()=>{
     // Create an HTTP server
+    let a=textEncrypt.encrypt('{"slaveName":"mobileApp","page":"alarm","command":"refresh","execute":"true","zones":"0","output":"158"}');
+   console.log( a);
+   console.log( textEncrypt.decrypt(a));
+
     const server = http.createServer((req, res) => {
         res.writeHead(200, {'Content-Type': 'text/plain'});
         res.end('Hello World\n');
@@ -56,11 +61,11 @@ const comServer=()=>{
 
     // Event listener for connections
     io.on('connection', (socket) => {
-        console.log('A user connected to httpSocketServer');
-
+        console.log('A user connected to http Socket Server');
         // Event listener for custom events
         socket.on('chat message', (msg) => {
-           //adds connected client to an array
+          //adds connected client to an array
+          
           const existingClient = connectedClients.find(client => client.id === socket.id);
           if (!existingClient) {
             let slaveName=checkJson(msg)
@@ -69,24 +74,18 @@ const comServer=()=>{
           }
           console.log(`Message from HttpServer  ${socket.id}: ${msg}`);
           console.log(connectedClients);
-         // sendDataToTelnetServer(telnetServerPort, {"slaveName":"mobileApp","page":"alarm","command":"refresh","execute":"true","zones":"0","output":"0"})
-          io.emit('chat message', JSON.stringify(checkJson(msg))); 
-
-             // Event listener for disconnections
-        io.on('disconnect', () => {
-          //adds connected client to an array
-           const existingClient = connectedClients.find(client => client.id === socket.id);
-           if (!existingClient) {
-               let slaveName=checkJson(msg)
-               // If the socket ID doesn't exist, add it to the array
-               connectedClients.push({ id: socket.id, ip: socket.handshake.address, slaveName: slaveName.slaveName });
-           }
-           console.log(`Message from HttpServer  ${socket.id}: ${msg}`);
-           console.log(connectedClients);
           // sendDataToTelnetServer(telnetServerPort, {"slaveName":"mobileApp","page":"alarm","command":"refresh","execute":"true","zones":"0","output":"0"})
-           io.emit('chat message', JSON.stringify(checkJson(msg)));
-       });
-        
+          socket.emit('chat message', JSON.stringify(checkJson(msg))); 
+        });
+        // Event listener for disconnections
+        socket.on('disconnect', () => {
+          console.log('User  '+ `${socket.id}` +'  disconnected');
+          // Remove client information from the array upon disconnection
+          const index = connectedClients.findIndex(client => client.id === socket.id);
+          if (index !== -1) {
+            connectedClients.splice(index, 1);
+          }
+          console.log('Remaining users ' +connectedClients);
         });
     });
     // Start the server

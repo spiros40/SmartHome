@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-//import { StyleSheet, Text, View, Image, Pressable, Modal, ScrollView } from 'react-native';
 import { StyleSheet, Text, View, Image, Pressable, Modal, ScrollView } from 'react-native';
 import socket from '../../communications/coms';
 import { CheckBox } from 'react-native-elements'; // Import CheckBox from react-native-elements
@@ -38,7 +37,7 @@ const bypassFrame = (props) => {
       "command": "bypass",
       "execute": `${execute}`,
       "zones": `${ZonesToBypass}`,
-      "outputs": "1,2"
+      "outputs": "0"
     }));
     console.log(ZonesToBypass);
   };

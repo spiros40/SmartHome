@@ -6,10 +6,13 @@ const  encryption=(data)=>{
     encrypt.hash(data, saltRounds, function(err, hash) {
         if (err) {
             console.error(err);
-            return;
+            return undefined;
+        }else{
+            // Store the hash in your database
+            console.log('Hashed password:', hash);
+            return hash;
         }
-        // Store the hash in your database
-        console.log('Hashed password:', hash);
+        
     });
 };
-module.exports=encryption;  
+module.exports=encryption;

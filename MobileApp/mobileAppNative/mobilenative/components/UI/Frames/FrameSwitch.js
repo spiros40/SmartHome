@@ -34,7 +34,6 @@ import { StyleSheet, Text,
             trackColor={{false: '#cc0000', true: '#8fce00'}}
             thumbColor={isEnabled ? '#318ce7' : '#f0f8ff'}
             onValueChange={toggleSwitch}
-            //onChange={execute=!isEnabled}
             onChange={notExecute}
             value={isEnabled}
           />   
