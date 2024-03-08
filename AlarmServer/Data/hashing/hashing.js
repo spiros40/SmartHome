@@ -1,7 +1,8 @@
 const encrypt = require('bcrypt');
+require('dotenv').config();
 
 const  encryption=(data)=>{
-    const saltRounds = 10; // Salt rounds determine the complexity of the hashing algorithm
+    const saltRounds = process.env.SALT_ROUNDS; // Salt rounds determine the complexity of the hashing algorithm
     // Generate a salt and hash the password
     encrypt.hash(data, saltRounds, function(err, hash) {
         if (err) {

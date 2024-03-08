@@ -692,7 +692,7 @@
   // delay(1400);
 
   //reconnect to server with repetition delay
-  if(!client.connected()){
+  if (!client.connected()){
     currentTime = millis();
     if(currentTime >= (serverReconnectTime + 5000)){  
       Serial.println("Server Try To Reconect");
@@ -729,15 +729,15 @@
       }
       break;
            
-    case systemInEntryDelay:
-      inEntryDelay();
-      Serial.println("delay"); 
-     break;  
+      case systemInEntryDelay:
+        inEntryDelay();
+        Serial.println("delay"); 
+      break;  
                     
-    case systemInAlarm:          
-      inAlarm();
-      Serial.println("alarm"); 
-     break; 
+      case systemInAlarm:          
+        inAlarm();
+        Serial.println("alarm"); 
+      break; 
     }
                  
 

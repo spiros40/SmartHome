@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+require('dotenv').config();
 
 /*
     plaintext: The text that you want to encrypt.
@@ -19,11 +20,12 @@ const crypto = require('crypto');
     ciphertext = "53022cf12c5959ddf3e733128930dd3d52e3ea"
     iv = "aabbccddeeff00112233445566778899"
     tag = ""  # If using authenticated encryption, provide the tag here
+    crypto.createCipheriv(algorithm, key, iv, options);
 */
 const encrypt = (plaintext) => {
     try{
-        key = "2hlCshmQaK/NKVnydrQ6b3b3FxMbT23N/i+Xm5K/Gms=";
-        iv = "77fNeA16sN6uDeRA";
+        const key = process.env.ENCRYPT_KEY;
+        const iv = process.env.ENCRYPT_IV;
         const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key,'base64'), iv,'base64');
         // Encrypt the plaintext
         let encryptedData = cipher.update(plaintext, 'utf8', 'base64');
@@ -46,8 +48,8 @@ const encrypt = (plaintext) => {
   */
 const decrypt = (encryptedData) => {
     try{
-        const key = "2hlCshmQaK/NKVnydrQ6b3b3FxMbT23N/i+Xm5K/Gms=";
-        const iv = "77fNeA16sN6uDeRA";
+        const key = process.env.ENCRYPT_KEY;
+        const iv = process.env.ENCRYPT_IV;
         const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key,'base64'), iv,'base64');
         // Decrypt the ciphertext
         let decryptedData = decipher.update(encryptedData, 'base64', 'utf8');

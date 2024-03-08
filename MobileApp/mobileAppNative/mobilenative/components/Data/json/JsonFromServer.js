@@ -11,7 +11,7 @@ const JsonFromServer=(receivedData)=>{
             return { serverName,command, execute,zones,outputs };
         }catch (error) {
           console.error('Error parsing JSON:', error.message);
-          return -1;
+          return undefined;
         }
       //}serverName":"server","status":"fullArmed","zones":"1,2"
     //checkJson(receivedData);

@@ -4,7 +4,8 @@ import FrameSwitch from '../../UI/Frames/FrameSwitch';
 import StatusFrame from '../../UI/Frames/StatusFrame';
 import BypassFrame from './BypassFrame';
 import socket from '../../communications/coms';
-import jsonFromServer from './JsonFromServer';
+import jsonFromServer from '../../Data/json/JsonFromServer';
+import textEncrypt from '../../Data/encrypt/msgEncrypt';
 
 
 const AlarmScreen=()=>{
@@ -37,15 +38,17 @@ const AlarmScreen=()=>{
   useEffect(() => {   
       console.log('*9*9*9')
     // Emit a message to the server "slaveName":"mobileApp","page":"alarm","command":"refresh" 
-    socket.emit('chat message', JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"Refresh"}));
+    //socket.emit('chat message', textEncrypt.encrypt(JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"Refresh"})));
+    let msgToSend=JSON.stringify({"slaveName":"mobileApp","page":"alarm","command":"Refresh"});
+    socket.emit('chat message', msgToSend);
     // Listen for messages from the server
     socket.on('chat message', (msg) => {
       console.log('Message from server:', msg);
       let jsonParsedMsg= jsonFromServer(msg);
       //setstatusText(`${jsonParsedMsg.command}`+" Zones: "+`${jsonParsedMsg.zones}`+" Outputs: "+`${jsonParsedMsg.outputs}`);
-      setstatusText(`${jsonParsedMsg.command}  ${jsonParsedMsg.zones !== undefined ? 'Zones:'+jsonParsedMsg.zones : ''} 
-      ${jsonParsedMsg.outputs !== undefined ? 'Outputs:'+jsonParsedMsg.outputs : ''}`);
-      systemStatus(jsonParsedMsg.command);
+       setstatusText(`${jsonParsedMsg.command}  ${jsonParsedMsg.zones !== undefined ? 'Zones:'+jsonParsedMsg.zones : ''} 
+       ${jsonParsedMsg.outputs !== undefined ? 'Outputs:'+jsonParsedMsg.outputs : ''}`);
+       systemStatus(jsonParsedMsg.command);
     });
     return () => {
       // Clean up listeners when the component unmounts

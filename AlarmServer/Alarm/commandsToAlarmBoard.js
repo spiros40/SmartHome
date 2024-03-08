@@ -1,9 +1,9 @@
 const Alarm = (command,zonesToBypass, outputs) => {
   /*server commands*/            
-  let commandDisarm=0,
-      commandArm=1,    
-      commandStayArm=2,
-      commandBypass=4
+  let commandDisarm=0
+      ,commandArm=1
+      ,commandStayArm=2
+      ,commandBypass=4
       ,commandUnBypass=5
       ,commandEnableOutput=6
       ,commandDisableOutput=7    

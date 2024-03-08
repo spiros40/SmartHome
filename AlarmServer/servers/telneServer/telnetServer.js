@@ -3,19 +3,19 @@ const alarm=require('../../Alarm/commandsToAlarmBoard');
 const slavesData=require('../../Data/slavesData');
 const dataDB=require('../../Data/database/database');
 const checkJson=require('../../Data/Json/chechJson');
+const slaveSelector=require('../../Cons/SlaveSelector/slaveSelector')
+require('dotenv').config();
 
 // Array to store conneced client information
 const connectedClients = [];
 
-const serverIP='192.168.1.13';
-const telnetServerPort=1500;
+const serverIP=process.env.HTTP_SERVER_PORT;
+const telnetServerPort=process.env.TELNET_SERVER_PORT;
 //clients IP
 const alarmSystemIP='192.168.1.3';
 
-
 const telnetServer = net.createServer((socket) => {
   console.log('Telnet Client connected. IP:', socket.remoteAddress+ `${socket.remotePort}`);
-  
   //adds connected client to an array if the ip does not exist and if ip exist checks if the port is different
   //then deletes the entry
   const existingClient = connectedClients.find(client => client.remoteAddress === socket.remoteAddress);
@@ -36,14 +36,16 @@ const telnetServer = net.createServer((socket) => {
     console.log(`TelnetServer user details`+' remotePort: '+ `${socket.remotePort}`+ ' remoteAddress: '+`${socket.remoteAddress}`);
     console.log(connectedClients)
 
-  socket.write('Hello, client! Welcome to the telnet server.\r\n');
+  //socket.write('Hello, client! Welcome to the telnet server.\r\n');
   
   socket.on('data', (data) => {
     const receivedData = data.toString().trim();
-    //console.log(`Received data from ${socket.remoteAddress}: ${receivedData}`);
+    console.log(`Received data from ${socket.remoteAddress}: ${receivedData}`);
     console.log("++++++")
     console.log(`${receivedData}`);
     console.log(checkJson(receivedData));
+    let msgToSlave=slaveSelector(receivedData);
+    sendToClientByIP(msgToSlave.ip, msgToSlave.data);
     //console.log(socket.remoteAddress);
     //const obj = JSON.parse(receivedData);
     //console.log(obj.status);
