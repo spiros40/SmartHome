@@ -9,9 +9,9 @@
     // The IP address will be dependent on your local network:
     byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
     //my ip
-    IPAddress ip(192, 168, 1, 20);
+    IPAddress ip(192, 168, 1, 151);
     // Enter the IP address of the server you're connecting to:
-    IPAddress server(192, 168, 1, 12);
+    IPAddress server(192, 168, 1, 13);
     // Initialize the Ethernet client library
     // with the IP address and port of the server
     // that you want to connect to (port 23 is default for telnet;

@@ -3,13 +3,14 @@ const alarm=require('../../Alarm/commandsToAlarmBoard');
 const slavesData=require('../../Data/slavesData');
 const dataDB=require('../../Data/database/database');
 const checkJson=require('../../Data/Json/chechJson');
-const slaveSelector=require('../../Cons/SlaveSelector/slaveSelector')
+const slaveSelector=require('../../Cons/SlaveSelector/slaveSelector');
+const { clear } = require('console');
 require('dotenv').config();
 
 // Array to store conneced client information
 const connectedClients = [];
 
-const serverIP=process.env.HTTP_SERVER_PORT;
+const serverIP=process.env.TELNET_SERVER_IP;
 const telnetServerPort=process.env.TELNET_SERVER_PORT;
 //clients IP
 const alarmSystemIP='192.168.1.3';

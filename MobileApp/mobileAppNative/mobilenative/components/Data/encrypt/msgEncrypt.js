@@ -1,10 +1,11 @@
 import CryptoJS from 'crypto-js';
+require('dotenv').config();
 
 
 function encrypt(message) {
     try {
-        const key = CryptoJS.enc.Base64.parse("2hlCshmQaK/NKVnydrQ6b3b3FxMbT23N/i+Xm5K/Gms=");
-        const iv = CryptoJS.enc.Hex.parse("77fNeA16sN6uDeRA");
+        const key = CryptoJS.enc.Base64.parse(process.env.ENCRYPT_KEY);
+        const iv = CryptoJS.enc.Hex.parse(process.env.ENCRYPT_IV);
         const options = { mode: CryptoJS.mode.CBC, iv: iv };
         const ciphertext = CryptoJS.AES.encrypt(message, key, options);
         console.log("--------"+ciphertext.toString());
@@ -19,8 +20,8 @@ const decrypt = (encryptedData) => {
     try {
         //const key = CryptoJS.enc.Base64.parse("2hlCshmQaK/NKVnydrQ6b3b3FxMbT23N/i+Xm5K/Gms=");
         //const iv = CryptoJS.enc.Base64.parse("77fNeA16sN6uDeRA");
-        const key = "2hlCshmQaK/NKVnydrQ6b3b3FxMbT23N/i+Xm5K/Gms=";
-        const iv = "77fNeA16sN6uDeRA";
+        const key = process.env.ENCRYPT_KEY;
+        const iv = process.env.ENCRYPT_IV;
         const options = { mode: CryptoJS.mode.CBC, iv: iv };
         // Decrypt the ciphertext
         const bytes = CryptoJS.AES.decrypt(encryptedData, key, options);

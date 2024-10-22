@@ -13,6 +13,7 @@
     "@react-navigation/bottom-tabs": "^6.5.14",
     "@react-navigation/native": "^6.1.12",
     "@react-navigation/native-stack": "^6.9.20",
+    "crypto-js": "^4.2.0",
     "react": "18.2.0",
     "react-native": "^0.73.5",
     "react-native-elements": "^3.4.3",
